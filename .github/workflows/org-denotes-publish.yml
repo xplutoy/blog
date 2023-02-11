@@ -4,6 +4,7 @@ on:
   push:
     branches: ["main"]
   workflow_dispatch:
+
 permissions:
   contents: write
 
@@ -19,6 +20,6 @@ jobs:
           cd scaffold
           make clean
           make
-      - use: JamesIves/github-pages-deploy-action@v4
+      - uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: ./scaffold/public_html
