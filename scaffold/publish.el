@@ -16,10 +16,9 @@
       org-html-checkbox-type 'html
       org-html-htmlize-output-type 'css
       org-html-container-element "section"
-      )
+      org-html-head-include-default-style nil)
 
-(defvar yx/website-html-head "<link rel='stylesheet' href='./css/site.css?v=2' type='text/css'/>")
-
+(defvar yx/website-html-head "<link rel='stylesheet' href='./css/org.css' type='text/css'/>")
 (setq org-publish-project-alist
       `(("yx-notes"
          :components ("yx-notes-page" "yx-notes-static"))
