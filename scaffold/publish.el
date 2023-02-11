@@ -27,7 +27,7 @@
         ("yx-notes-page"
          :base-directory "../"
          :base-extension "org"
-         :publishing-directory "../public/"
+         :publishing-directory "../public_html/"
          :recursive nil
          :publishing-function org-html-publish-to-html
          :headline-levels 3
@@ -44,7 +44,7 @@
         ("yx-notes-static"
          :base-directory "./"
          :base-extension "css\\|js\\|png\\|jpg\\|gif"
-         :publishing-directory "../public/"
+         :publishing-directory "../public_html/"
          :recursive t
          :publishing-function org-publish-attachment
          ))
