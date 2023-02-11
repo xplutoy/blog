@@ -15,7 +15,7 @@ jobs:
           version: 8.2
       - uses: actions/checkout@v3
 
-      
-      - run: | 
+      - run: |
           cd scaffold
+          make clean
           make
