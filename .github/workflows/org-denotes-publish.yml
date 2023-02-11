@@ -1,0 +1,21 @@
+name: org-denotes-publish
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: purcell/setup-emacs@master
+        with:
+          version: 8.2
+      - uses: actions/checkout@v3
+
+      
+      - run: | 
+          cd scaffold
+          make
