@@ -18,7 +18,7 @@
       org-html-container-element "section"
       )
 
-(defvar yx/website-html-head "<link rel='stylesheet' href='/css/site.css?v=2' type='text/css'/>")
+(defvar yx/website-html-head "<link rel='stylesheet' href='./css/site.css?v=2' type='text/css'/>")
 
 (setq org-publish-project-alist
       `(("yx-notes"
@@ -33,9 +33,10 @@
          :auto-preamble t
          :auto-sitemap t
          :sitemap-filename "index.org"
+         :sitemap-sort-files anti-chronologically ;sort the posts from newest to oldest.
 
-         :html-link-home "/"
-         :html-link-up "/"
+         :html-link-home "/yx-notes"
+         :html-link-up "/yx-notes"
          :html-head-include-scripts t
          :html-head-include-default-style nil
          :html-head ,yx/website-html-head
