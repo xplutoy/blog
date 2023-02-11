@@ -20,14 +20,13 @@
 
 (defvar yx/website-html-head "<link rel='stylesheet' href='/css/site.css?v=2' type='text/css'/>")
 
-
 (setq org-publish-project-alist
       `(("yx-notes"
          :components ("yx-notes-page" "yx-notes-static"))
         ("yx-notes-page"
          :base-directory "../"
          :base-extension "org"
-         :publishing-directory "../public_html/"
+         :publishing-directory "./public_html/"
          :recursive nil
          :publishing-function org-html-publish-to-html
          :headline-levels 3
@@ -44,7 +43,7 @@
         ("yx-notes-static"
          :base-directory "./"
          :base-extension "css\\|js\\|png\\|jpg\\|gif"
-         :publishing-directory "../public_html/"
+         :publishing-directory "./public_html/"
          :recursive t
          :publishing-function org-publish-attachment
          ))
