@@ -1,0 +1,39 @@
+#+title:      Emacs 插件  :  easy-kill
+#+date:       [2023-02-11 六 04:51]
+#+filetags:   :tool:
+#+identifier: 20230211T045151
+* Intro
+[[https://github.com/leoliu/easy-kill][Easy-kill]] 是一个编辑增强插件，主要提升 emacs 标记复制等操作的效率。
+* Setup
+#+begin_src elisp
+(use-package easy-kill
+  :bind (([remap kill-ring-save] . easy-kill)
+         ([remap mark-sexp] . easy-mark))
+  )
+#+end_src
+* Usage
+Easy-kill 提供了 easy-kill 和 easy-mark 两个命令。按如上配置替换对应原生命令后，现在 M-w 既是一个命令，也同时是一个命令前缀。当单独按下 M-w 时，依次按 region，url ，email，current-line，来判断光标下的内容，如有满足则选择（selection）并复制。当作为命令前缀，可接本对象，直接进行复制：
+| M-w w | 复制单词                                     |
+| M-w s | 复制 sexp 表达式                             |
+| M-w l | 复制当前行                                   |
+| M-w d | 复制当前 defun                               |
+| M-w D | 复制当前 defun 的名字                        |
+| M-w f | 复制当前文件名                               |
+| M-w b | 复制当前 buffer 的名字或者 default-directory |
+上述命令又可看作是一个命令前缀，后面可继续接文本对象进行选择复制，比如，按下 _M-w w_ 复制当下单词，再按一次 w 可会继续扩充选中下一个单词并复制。同时这些命令前缀也可接 motion 执行选择或其他操作：
+| @          | append selection to previous kill and exit |
+| C-w        | kill selection and exit                    |
+| +, -，1..9 | expand/shrink selection                    |
+| 0          | shrink the selection to the initial size   |
+| SPC        | cycle through things in *easy-kill-alist*    |
+| C-SPC      | turn selection into an active region       |
+| C-g        | abort                                      |
+| ?          | help                                       |
+* Case
+| M-w w w     | 选中3个单词并复制                       |
+| M-w w 3     | 等同 M-w w w w                          |
+| M-w 3       | 略                                      |
+| M-w SPS     | 循环选中 easy-kill-alist 的对象，并复制 |
+| M-w l 2 C-w | 选中3行复制剪切，并退出                 |
+* Comment
+编辑思想跟 [[https://github.com/mawww/kakoune][kakoune]] 类比较类似，选择+操作。是一种很高效直观的编辑方式。

@@ -1,0 +1,4 @@
+#+title:      vscode
+#+date:       [2023-02-11 六 14:35]
+#+filetags:   :tool:
+#+identifier: 20230211T143523

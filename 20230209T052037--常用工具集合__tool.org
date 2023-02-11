@@ -1,0 +1,12 @@
+#+title:      常用工具集合
+#+date:       [2023-02-09 四 05:20]
+#+filetags:   :tool:
+#+identifier: 20230209T052037
+* [[denote:20230210T211056][macos]]
+* [[denote:20230211T143210][emacs]]
+* [[denote:20230211T143600][vim/nvim]]
+* [[denote:20230211T143523][vscode]]
+* 其他
+** zsh
+** [[denote:20230209T055812][zoxide]]
+** helix/kakoune

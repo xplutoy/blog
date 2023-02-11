@@ -1,0 +1,6 @@
+#+title:      emacs-插件集合
+#+date:       [2023-02-11 六 13:32]
+#+filetags:   :tool:
+#+identifier: 20230211T133256
+* 使用中的插件
+** [[denote:20230211T045151][easy-kill]]                                                           :不错:
