@@ -1,4 +1,4 @@
-bname: org-denotes-publish
+name: org-denotes-publish
 
 on:
   push:
