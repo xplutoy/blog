@@ -5,6 +5,7 @@
 
 * Intro
 静态网站生产器，如 [[https://gohugo.io][HUGO]] ，[[https://jekyllrb.com][Jekyll]] ，只支持 [[https://www.markdownguide.org][Markdown]] 格式的文本。目前没有找到令自己满意的支持 Org 格式的替代品。所以就尝试用 Org 自带的 ox-publish 来生产静态页面，结合 github-page 做一个简单的个人笔记展示页面。
+
 * Setup
 我的笔记目录结构如下：
 #+begin_src shell :results output :exports results
@@ -196,10 +197,22 @@ emacs --batch -q --script publish.el
    - *yx-notes-static* ：从 :base-directory 中，把所有由 :base-extension 指定后缀名的文件，移动到由 :publishing-directory 指定的发布目录。
    - *yx-notes-page* ：（同上）把基目录下的 org 文件转换成 html 文件，并放入发布目录。:auto-sitemap  字段指示是否自动生成一个汇总主页。
    - *yx-notes* ：把上面两个项目汇总成一个项目。
-
 这样，基本上就有一个笔记展示主页的雏形了。接下来就是定制样式（如何添加样式，请看脚本中 yx/html-head 变量的使用 ），添加内容。
 
-* 补充
+* Workflow
+1. 本地编辑笔记
+2. 本地构建：
+   - 在 scaffold 目录下执行 make
+   - 启动 web-server
+     #+begin_src shell
+     python -m http.server --directory=public_html
+     #+end_src
+   - 打开 localhost:8000 查看修改
+3. 上传服务器
+   - 提交，上传（上传的 github 仓库，会自动进行构建）
+整个流程简单，清晰。
+
+* Supplement
 参考：
 - [[https://psachin.gitlab.io/how_do_i_blog.html][opensource.com: How do I blog?]]
 - [[https://orgmode.org/worg/org-tutorials/org-publish-html-tutorial.html#org376932a][Publishing Org-mode files to HTML]]
