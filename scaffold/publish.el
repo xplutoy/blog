@@ -11,9 +11,11 @@
 (require 'htmlize)
 (require 'ox-publish)
 (setq denote-directory "../")
-(setq org-export-with-section-numbers nil
+
+(setq org-export-with-section-numbers t
       org-export-htmlize-output-type 'css
-      org-export-with-smart-quotes t)
+      org-export-with-smart-quotes t
+      org-export-with-sub-superscripts nil)
 (setq org-html-doctype "html5"
       org-html-html5-fancy t
       org-html-checkbox-type 'html
@@ -21,7 +23,8 @@
       org-html-container-element "section"
       org-html-head-include-default-style nil)
 
-(defvar yx/website-html-head "<link rel='stylesheet' href='./css/org.css' type='text/css'/>")
+(defvar yx/html-head "<link rel='stylesheet' href='./css/org.css' type='text/css'/>")
+(defvar yx/html-postamble "<div id='postamble' class='status'> <hr/> <p class='author'>Created with %c by %a <br\>Updated: %C<br/></p> </div>")
 (setq org-publish-project-alist
       `(("yx-notes"
          :components ("yx-notes-page" "yx-notes-static"))
@@ -41,7 +44,8 @@
          :html-link-up "/yx-notes"
          :html-head-include-scripts nil
          :html-head-include-default-style nil
-         :html-head ,yx/website-html-head
+         :html-head ,yx/html-head
+         :html-postamble ,yx/html-postamble
          )
         ("yx-notes-static"
          :base-directory "./"

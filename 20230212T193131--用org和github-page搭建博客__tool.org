@@ -1,0 +1,208 @@
+#+title:      用org和github-page搭建博客
+#+date:       [2023-02-12 日 19:31]
+#+filetags:   :tool:
+#+identifier: 20230212T193131
+
+* Intro
+静态网站生产器，如 [[https://gohugo.io][HUGO]] ，[[https://jekyllrb.com][Jekyll]] ，只支持 [[https://www.markdownguide.org][Markdown]] 格式的文本。目前没有找到令自己满意的支持 Org 格式的替代品。所以就尝试用 Org 自带的 ox-publish 来生产静态页面，结合 github-page 做一个简单的个人笔记展示页面。
+* Setup
+我的笔记目录结构如下：
+#+begin_src shell :results output :exports results
+tree -L 2
+#+end_src
+
+#+RESULTS:
+#+begin_example
+.
+├── 20230209T052037--常用工具集合__tool.org
+├── 20230209T055812--zoxide__tool.org
+├── 20230209T155228--emacs-server__tool.org
+├── 20230210T211056--macos私人定制__tool.org
+├── 20230211T045151--emacs-插件-easy-kill__tool.org
+├── 20230211T133256--emacs-插件集合__tool.org
+├── 20230211T143210--emacs__tool.org
+├── 20230211T143523--vscode__tool.org
+├── 20230211T143600--vimnvim__tool.org
+├── 20230212T193131--用org和github-page搭建博客__tool.org
+├── LICENSE
+├── README.md
+├── index.org
+└── scaffold
+    ├── Makefile
+    ├── attachs
+    ├── css
+    ├── public_html
+    └── publish.el
+
+5 directories, 15 files
+#+end_example
+在笔记根目录下还有个 github-action 的配置文件：
+#+begin_src shell :results output :exports results
+tree .github
+#+end_src
+
+#+RESULTS:
+#+begin_example
+: .github
+: └── workflows
+:     └── org-denotes-publish.yml
+:
+: 2 directories, 1 file
+#+end_example
+我把所有用于构建的脚本等与笔记正文无关的文件都放在 scaffold 目录下：
+| Makefile            | 构建脚本           |
+| attachs             | 存放外部链接文件   |
+| css                 | 存放网站的样式文件 |
+| public_html         | 生成的静态网站     |
+| publish.el          | 网站静态页面生成器 |
+| org-denotes-publish | github-action脚本  |
+
+首先看 org-denotes-publish 脚本：
+#+begin_src yaml
+name: org-denotes-publish
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: purcell/setup-emacs@master
+        with:
+          version: 28.2
+      - uses: actions/checkout@v3
+      - run: |
+          cd scaffold
+          make clean
+          make
+      - uses: actions/configure-pages@v3
+      - uses: actions/upload-pages-artifact@v1
+        with:
+          path: './scaffold/public_html'
+      - uses: actions/deploy-pages@v1
+#+end_src
+上述脚本逻辑很清晰：配置环境-›构建静态网站-›发布。如何构建静态网站由我们自己控制，其他交由 github 。
+
+再看 Makefile 脚本：
+#+begin_src makefile
+# Makefile for myblog
+.PHONY: all publish publish_no_init
+
+all: publish
+
+publish: publish.el
+	@echo "Publishing..."
+	emacs --batch -q --script publish.el
+
+clean:
+	@echo "Cleaning up.."
+	@rm -rvf *.elc
+	@rm -rvf ./public_html/
+	@rm -rvf ~/.org-timestamps/*
+#+end_src
+这脚本很简单，执行 make 运行命令：
+#+begin_src shell
+emacs --batch -q --script publish.el
+#+end_src
+也可以直接把这条命令写入 github-action 脚本中。
+
+接下来就是最重要的 publish.el 文件了：
+#+begin_src elisp
+;;; publish.el --- notes setting. -*- lexical-binding: t no-byte-compile: t -*-
+(require 'package)
+(package-initialize)
+(unless package-archive-contents
+  (package-refresh-contents))
+(dolist (pkg '(denote
+               htmlize))
+  (unless (package-installed-p pkg)
+    (package-install pkg)))
+(require 'denote)
+(require 'htmlize)
+(require 'ox-publish)
+(setq denote-directory "../")
+
+(setq org-export-with-section-numbers t
+      org-export-htmlize-output-type 'css
+      org-export-with-smart-quotes t
+      org-export-with-sub-superscripts nil)
+(setq org-html-doctype "html5"
+      org-html-html5-fancy t
+      org-html-checkbox-type 'html
+      org-html-htmlize-output-type 'css
+      org-html-container-element "section"
+      org-html-head-include-default-style nil)
+
+(defvar yx/html-head "<link rel='stylesheet' href='./css/org.css' type='text/css'/>")
+(defvar yx/html-postamble "<div id='postamble' class='status'> <hr/> <p class='author'>Created with %c by %a <br\>Updated: %C<br/></p> </div>")
+(setq org-publish-project-alist
+      `(("yx-notes"
+         :components ("yx-notes-page" "yx-notes-static"))
+        ("yx-notes-page"
+         :base-directory "../"
+         :base-extension "org"
+         :publishing-directory "./public_html/"
+         :recursive nil
+         :publishing-function org-html-publish-to-html
+         :headline-levels 4
+         :auto-preamble t
+         :auto-sitemap t
+         :sitemap-filename "index.org"
+         :sitemap-sort-files anti-chronologically ;sort the posts from newest to oldest.
+
+         :html-link-home "/yx-notes"
+         :html-link-up "/yx-notes"
+         :html-head-include-scripts nil
+         :html-head-include-default-style nil
+         :html-head ,yx/html-head
+         :html-postamble ,yx/html-postamble
+         )
+        ("yx-notes-static"
+         :base-directory "./"
+         :base-extension "css\\|js\\|png\\|jpg\\|gif"
+         :publishing-directory "./public_html/"
+         :recursive t
+         :publishing-function org-publish-attachment
+         ))
+      )
+
+(org-publish "yx-notes" t nil)
+;;; publish.el ends here
+#+end_src
+这个脚本：
+1. 安装必要插件：
+   - 我用 [[https://github.com/protesilaos/denote][denote]] 做笔记，它使用链接的形式是 *denote:+id* 的形式，为了正确导出成 html 识别的链接，必须导入 denote 包，并正确设置 *denote-directory* 变量。
+   - 安装 htmlize 插件。
+2. 设置导出的一些参数：
+   | org-export-with-section-numbers     | t   | 导出的每个 headline 上都有一个指示层级的数字 |
+   | org-export-with-sub-superscripts    | nil | 下划线不要导出成 latex 似的下标              |
+   | org-html-head-include-default-style | nil | 不要使用默认样式                             |
+   这三个对我比较重要，其他可选。
+3. 设置要发布的 org 项目。
+   这一步是通过设置参数  org-publish-project-alist 来完成的，它是一个列表，列表里的每一个子列表是一个项目。比如上面脚本中设置了三个项目：
+   - *yx-notes-static* ：从 :base-directory 中，把所有由 :base-extension 指定后缀名的文件，移动到由 :publishing-directory 指定的发布目录。
+   - *yx-notes-page* ：（同上）把基目录下的 org 文件转换成 html 文件，并放入发布目录。:auto-sitemap  字段指示是否自动生成一个汇总主页。
+   - *yx-notes* ：把上面两个项目汇总成一个项目。
+
+这样，基本上就有一个笔记展示主页的雏形了。接下来就是定制样式（如何添加样式，请看脚本中 yx/html-head 变量的使用 ），添加内容。
+
+* 补充
+参考：
+- [[https://psachin.gitlab.io/how_do_i_blog.html][opensource.com: How do I blog?]]
+- [[https://orgmode.org/worg/org-tutorials/org-publish-html-tutorial.html#org376932a][Publishing Org-mode files to HTML]]
+- [[https://taingram.org/blog/org-mode-blog.html][Building a Emacs Org-Mode Blog]]
+
+在配置中有思考有收获，或许这就是折腾的意义吧。
