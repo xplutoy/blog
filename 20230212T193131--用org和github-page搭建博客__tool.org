@@ -199,6 +199,13 @@ emacs --batch -q --script publish.el
    - *yx-notes* ：把上面两个项目汇总成一个项目。
 这样，基本上就有一个笔记展示主页的雏形了。接下来就是定制样式（如何添加样式，请看脚本中 yx/html-head 变量的使用 ），添加内容。
 
+* Code Highlight
+org-mode 导出 html 中的代码高亮由变量 *org-html-htmlize-output-type* 控制：
+| 'inline-css | (default)以 inline 的方式，用当前 emacs 的主题的色彩高亮代码 |
+| 'css        | 用类选择器标识代码，用户用自己定义的方案高亮代码             |
+| nil         | 啥都没有                                                     |
+为了保证整个页面风格一致，所以选取 *'css* 的方式。这部分 css 借鉴于[[https://github.com/kaushalmodi/.emacs.d/blob/master/misc/css/leuven_theme.css][kaushalmodi]] ，其用 [[https://github.com/fniessen/emacs-leuven-theme][leuven-theme]] 主题修改的高亮方案。我喜欢它的简洁。
+
 * Workflow
 1. 本地编辑笔记
 2. 本地构建：
