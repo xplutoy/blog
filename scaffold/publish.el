@@ -3,13 +3,16 @@
 (package-initialize)
 (unless package-archive-contents
   (package-refresh-contents))
-(dolist (pkg '(denote htmlize))
+(dolist (pkg '(denote
+               htmlize))
   (unless (package-installed-p pkg)
     (package-install pkg)))
 (require 'denote)
 (require 'htmlize)
 (require 'ox-publish)
+(setq denote-directory "../")
 (setq org-export-with-section-numbers nil
+      org-export-htmlize-output-type 'css
       org-export-with-smart-quotes t)
 (setq org-html-doctype "html5"
       org-html-html5-fancy t
@@ -28,7 +31,7 @@
          :publishing-directory "./public_html/"
          :recursive nil
          :publishing-function org-html-publish-to-html
-         :headline-levels 3
+         :headline-levels 4
          :auto-preamble t
          :auto-sitemap t
          :sitemap-filename "index.org"
@@ -36,7 +39,7 @@
 
          :html-link-home "/yx-notes"
          :html-link-up "/yx-notes"
-         :html-head-include-scripts t
+         :html-head-include-scripts nil
          :html-head-include-default-style nil
          :html-head ,yx/website-html-head
          )
@@ -48,6 +51,7 @@
          :publishing-function org-publish-attachment
          ))
       )
-(package-installed-p 'htmlize)
+
+(org-publish "yx-notes" t nil)
 
 ;;; publish.el ends here
