@@ -114,11 +114,7 @@ clean:
 	@rm -rvf ./public_html/
 	@rm -rvf ~/.org-timestamps/*
 #+end_src
-这脚本很简单，执行 make 运行命令：
-#+begin_src shell
-emacs --batch -q --script publish.el
-#+end_src
-也可以直接把这条命令写入 github-action 脚本中。
+这脚本很简单，执行 make 运行命令： ~emacs --batch -q --script publish.el~ ，也可以直接把这条命令写入 github-action 脚本中。
 
 接下来就是最重要的 publish.el 文件了：
 #+begin_src elisp
@@ -185,22 +181,22 @@ emacs --batch -q --script publish.el
 #+end_src
 这个脚本：
 1. 安装必要插件：
-   - 我用 [[https://github.com/protesilaos/denote][denote]] 做笔记，它使用链接的形式是 *denote:+id* 的形式，为了正确导出成 html 识别的链接，必须导入 denote 包，并正确设置 *denote-directory* 变量。
+   - 我用 [[https://github.com/protesilaos/denote][denote]] 做笔记，它使用链接的形式是 ~denote:+id~ 的形式，为了正确导出成 html 识别的链接，必须导入 denote 包，并正确设置 *denote-directory* 变量。
    - 安装 htmlize 插件。
 2. 设置导出的一些参数：
-   | org-export-with-section-numbers     | t   | 导出的每个 headline 上都有一个指示层级的数字 |
-   | org-export-with-sub-superscripts    | nil | 下划线不要导出成 latex 似的下标              |
-   | org-html-head-include-default-style | nil | 不要使用默认样式                             |
+   | ~org-export-with-section-numbers~     | ~t~   | 导出的每个 headline 上都有一个指示层级的数字 |
+   | ~org-export-with-sub-superscripts~    | ~nil~ | 下划线不要导出成 latex 似的下标              |
+   | ~org-html-head-include-default-style~ | ~nil~ | 不要使用默认样式                             |
    这三个对我比较重要，其他可选。
 3. 设置要发布的 org 项目。
-   这一步是通过设置参数  org-publish-project-alist 来完成的，它是一个列表，列表里的每一个子列表是一个项目。比如上面脚本中设置了三个项目：
-   - *yx-notes-static* ：从 :base-directory 中，把所有由 :base-extension 指定后缀名的文件，移动到由 :publishing-directory 指定的发布目录。
-   - *yx-notes-page* ：（同上）把基目录下的 org 文件转换成 html 文件，并放入发布目录。:auto-sitemap  字段指示是否自动生成一个汇总主页。
-   - *yx-notes* ：把上面两个项目汇总成一个项目。
-这样，基本上就有一个笔记展示主页的雏形了。接下来就是定制样式（如何添加样式，请看脚本中 yx/html-head 变量的使用 ），添加内容。
+   这一步是通过设置参数  ~org-publish-project-alist~ 来完成的，它是一个列表，列表里的每一个子列表是一个项目。比如上面脚本中设置了三个项目：
+   - *yx-notes-static* :: 从 :base-directory 中，把所有由 ~:base-extension~ 指定后缀名的文件，移动到由 :publishing-directory 指定的发布目录。
+   - *yx-notes-page* :: （同上）把基目录下的 org 文件转换成 html 文件，并放入发布目录。 ~:auto-sitemap~  字段指示是否自动生成一个汇总主页。
+   - *yx-notes*  :: 把上面两个项目汇总成一个项目。
+这样，基本上就有一个笔记展示主页的雏形了。接下来就是定制样式（如何添加样式，请看脚本中 ~yx/html-head~ 变量的使用 ），添加内容。
 
 * Code Highlight
-org-mode 导出 html 中的代码高亮由变量 *org-html-htmlize-output-type* 控制：
+org-mode 导出 html 中的代码高亮由变量 ~org-html-htmlize-output-type~ 控制：
 | 'inline-css | (default)以 inline 的方式，用当前 emacs 的主题的色彩高亮代码 |
 | 'css        | 用类选择器标识代码，用户用自己定义的方案高亮代码             |
 | nil         | 啥都没有                                                     |
@@ -210,10 +206,7 @@ org-mode 导出 html 中的代码高亮由变量 *org-html-htmlize-output-type* 
 1. 本地编辑笔记
 2. 本地构建：
    - 在 scaffold 目录下执行 make
-   - 启动 web-server
-     #+begin_src shell
-     python -m http.server --directory=public_html
-     #+end_src
+   - 启动 web-server，执行 ~python -m http.server --directory=public_html~
    - 打开 localhost:8000 查看修改
 3. 上传服务器
    - 提交，上传（上传的 github 仓库，会自动进行构建）

@@ -1,0 +1,148 @@
+#+title:      Org Syntax Examples
+#+date:       [2023-02-13 一 16:33]
+#+filetags:   :doc:
+#+identifier: 20230213T163349
+
+收集的一些 org 语法例子，方便参考，验证。初始内容大部分来自 [[https://gitlab.com/publicvoit/orgdown/-/blob/master/doc/Orgdown1-Syntax-Examples.org][Orgdown1 Syntax Examples]] 。
+
+* Org Syntax Examples
+** *Simple* /text/ _formatting_
+- *bold*
+- /italic/
+- _underline_
+- +strike through+
+- =code=
+- ~commands~
+
+: small example
+
+Within links:
+
+[[https://gitlab.com/publicvoit/orgdown][This *is* an /example/ of _some_ syntax +highlighting+ within =links= and ~such~.]]
+
+[[https://gnu.org][~gnu~]]
+
+-----
+
+Five or more dashes produce a horizontal line.
+
+** Headings
+
+Headings are pre-pended by a set of asterisk characters followed by at
+least one space character.
+
+One asterisk is a heading of level 1, two asterisks for level 2 and so forth:
+
+: * Heading of level 1
+: ** Heading of level 2
+: *** Heading of level 3
+: *** Another heading of level 3
+: ** Again a heading of level 2
+
+** Lists and Checkboxes
+
+simple list:
+- Org-mode
+- Lists
+- [ ] unchecked checkbox
+- [X] checked checkbox
+- [-] undecided checkbox (=C-u C-u C-c C-c=)
+
+enumerate:
+1. Emacs
+2. Org-mode
+3. Lists
+
+mixed with checkboxes:
+
+- Clean out garage
+  1. [ ] get stuff out
+     - [X] be careful with that axe, Eugene
+  2. [X] get rid of old stuff
+     - sell on the Internet?
+     - try to use rubbish as birthday presents for family
+  3. [ ] repaint garage
+  4. [ ] put stuff back in
+
+** Blocks
+
+An EXAMPLE block is rendered "as is", keeping line breaks and not
+interpreting content:
+
+#+BEGIN_EXAMPLE
+An example in an EXAMPLE block.
+Second line within this block.
+
+This *is* an /example/ of _some_ syntax +highlighting+.
+#+END_EXAMPLE
+
+Content within a QUOTE block may get different line breaks when
+exported/rendered and interprets Orgdown text formatting:
+
+#+BEGIN_QUOTE
+An example in an QUOTE block.
+Second line within this block.
+
+This *is* an /example/ of _some_ syntax +highlighting+.
+#+END_QUOTE
+
+VERSE blocks are similar to quote blocks, but they respect line breaks:
+
+#+BEGIN_VERSE
+An example in an VERSE block.
+Second line within this block.
+
+This *is* an /example/ of _some_ syntax +highlighting+.
+#+END_VERSE
+
+(Please note that GitLab is ignoring VERSE blocks.)
+
+SRC blocks contain source code snippets. Text formatting is ignored,
+line breaks preserved.
+
+A Python source code example:
+
+#+BEGIN_SRC
+  def my_test(myvar: str = 'foo bar'):
+      """
+      This is an example function.
+
+      @type  myvar: str = 'foo bar': number
+      @param myvar: str = 'foo bar': FIXXME
+      """
+
+      mynewvar: str = myvar + ' additional content'
+      return mynewvar
+
+  print("Hello " + my_text('Europe!'))
+#+END_SRC
+
+A shell script example:
+
+#+BEGIN_SRC
+echo "Hello Europe!"
+FOO="foo bar"
+echo "A test with ${FOO}"
+pwd
+#+END_SRC
+
+** Links
+
+- [[https://gitlab.com/publicvoit/orgdown]] → URL with brackets without description
+- [[https://gitlab.com/publicvoit/orgdown][Orgdown homepage]] → URL with brackets with description
+
+** Tables
+
+Table and spreadsheet.  The column headed "Ratio" is automatically,  calculated by hitting C-c C-c in Emacs on the ~#+TBLFM: $4=$3/$2;%.1f~ line.
+
+|----------------+-----------+-----------+-------|
+| Country        | Abstracts | Downloads | Ratio |
+|----------------+-----------+-----------+-------|
+| United States  |         7 |       497 |  71.0 |
+| Unknown        |         4 |        83 |  20.8 |
+| United Kingdom |         3 |        41 |  13.7 |
+| Germany        |         3 |        29 |   9.7 |
+| Netherlands    |         2 |        21 |  10.5 |
+| Japan          |         1 |        18 |  18.0 |
+|----------------+-----------+-----------+-------|
+#+TBLFM: $4=$3/$2;%.1f
