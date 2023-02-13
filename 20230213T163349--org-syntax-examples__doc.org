@@ -3,7 +3,7 @@
 #+filetags:   :doc:
 #+identifier: 20230213T163349
 
-收集的一些 org 语法例子，方便参考，验证。初始内容大部分来自 [[https://gitlab.com/publicvoit/orgdown/-/blob/master/doc/Orgdown1-Syntax-Examples.org][Orgdown1 Syntax Examples]] 。
+收集的一些 org 语法例子，方便参考，验证。初始内容大部分来自 [[https://gitlab.com/publicvoit/orgdown/-/blob/master/doc/Orgdown1-Syntax-Examples.org][Orgdown1 Syntax Examples]] 和 [[https://orgmode.org/orgguide.html][官方文档]]。
 
 * Org Syntax Examples
 ** *Simple* /text/ _formatting_
@@ -146,3 +146,38 @@ Table and spreadsheet.  The column headed "Ratio" is automatically,  calculated 
 | Japan          |         1 |        18 |  18.0 |
 |----------------+-----------+-----------+-------|
 #+TBLFM: $4=$3/$2;%.1f
+
+** Embedded LaTeX
+Org mode supports embedding LaTeX code into its files. You can directly use TeX-like syntax for special symbols, enter formulas and entire LaTeX environments, like flowing example.
+
+#+BEGIN_EXAMPLE
+\begin{equation}                        % arbitrary environments,
+x=\sqrt{b}                              % even tables, figures
+\end{equation}                          % etc
+If $a^2=b$ and \( b=2 \), then the solution must be
+either $$ a=+\sqrt{2} $$ or \[ a=-\sqrt{2} \].
+#+END_EXAMPLE
+
+\begin{equation}                        % arbitrary environments,
+x=\sqrt{b}                              % even tables, figures
+\end{equation}                          % etc
+If $a^2=b$ and \( b=2 \), then the solution must be
+either $$ a=+\sqrt{2} $$ or \[ a=-\sqrt{2} \].
+
+** Images
+1. link to an image file that does not have a description part, for example
+   : ./img/cat.jpg
+2. define a caption for the image and  a label for internal cross references
+   #+BEGIN_EXAMPLE
+   #+CAPTION: This is the caption for the next figure link (or table)
+   #+NAME:   fig:SED-HR4049
+   [[./img/a.jpg]]
+   #+END_EXAMPLE
+
+** Footnotes
+A footnote is defined in a paragraph that is started by a footnote marker in square brackets in column 0, no indentation allowed. The footnote reference is simply the marker in square brackets, inside text. For example:
+#+BEGIN_EXAMPLE
+The Org website[fn:1] now looks a lot better than it used to.
+...
+[fn:1] The link is: https://orgmode.org
+#+END_EXAMPLE
