@@ -9,84 +9,12 @@ body {
         background: #fffff4;
         color: #3a1616;
         padding: 0 10px;
-        font-size: 14px;
+        font-size: 16px;
         font-family: "Lora";
         font-weight: normal;
         /* Smooth the font a little bit, it's a
          bit too bold on retina screens */
         -webkit-font-smoothing: antialiased;
-}
-
-/* --------------------------------------------------- */
-/* Make a nice input form with rounded corners and hover
- animations*/
-/* --------------------------------------------------- */
-input {
-        padding: 10px 16px;
-        margin: 2px 0;
-        box-sizing: border-box;
-        border: 2px solid #dabebe;
-        border-radius: 6px;
-        background: #fffff4;
-        color: #3a1616;
-        font-size: 16px;
-        -webkit-transition: 0.5s;
-        transition: 0.5s;
-        outline: none;
-}
-input:focus {
-        border: 2px solid #3a1616;
-}
-
-/* --------------------------------------- */
-/* The button is very similar to the input */
-/* --------------------------------------- */
-.button {
-        background-color: #fffff4;
-        border: none;
-        color: black;
-        padding: 6px 14px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-        margin: 4px 2px;
-        transition-duration: 0.4s;
-        cursor: pointer;
-        border: 2px solid #3a1616;
-        border-radius: 6px;
-}
-.button:hover {
-        background-color: #3a1616;
-        color: white;
-}
-
-/* ----------------------------------------------- */
-/* Various classes for messages of different kinds */
-/* ----------------------------------------------- */
-.isa_info,
-.isa_success,
-.isa_warning,
-.isa_error {
-        width: 90%;
-        margin: 10px 0px;
-        padding: 12px;
-}
-.isa_info {
-        color: #00529b;
-        background-color: #bde5f8;
-}
-.isa_success {
-        color: #4f8a10;
-        background-color: #dff2bf;
-}
-.isa_warning {
-        color: #9f6000;
-        background-color: #feefb3;
-}
-.isa_error {
-        color: #d8000c;
-        background-color: #ffd2d2;
 }
 
 h1,

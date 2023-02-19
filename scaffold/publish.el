@@ -38,6 +38,7 @@
          :auto-preamble t
          :auto-sitemap t
          :sitemap-filename "index.org"
+         :sitemap-title "Technical Notes"
          :sitemap-sort-files anti-chronologically ;sort the posts from newest to oldest.
 
          :html-link-home "/yx-notes"
