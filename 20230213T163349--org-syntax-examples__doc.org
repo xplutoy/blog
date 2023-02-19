@@ -1,4 +1,4 @@
-#+title:      Org Syntax Examples
+#+title:      org syntax examples
 #+date:       [2023-02-13 一 16:33]
 #+filetags:   :doc:
 #+identifier: 20230213T163349

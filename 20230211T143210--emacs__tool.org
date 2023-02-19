@@ -1,6 +1,0 @@
-#+title:      emacs
-#+date:       [2023-02-11 六 14:32]
-#+filetags:   :tool:
-#+identifier: 20230211T143210
-* [[denote:20230209T155228][emacs-server]]
-* [[denote:20230211T133256][emacs-插件集合]]

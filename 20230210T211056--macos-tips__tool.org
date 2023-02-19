@@ -1,4 +1,4 @@
-#+title:      MacOS私人定制
+#+title:      macos tips
 #+date:       [2023-02-10 五 21:10]
 #+filetags:   :tool:
 #+identifier: 20230210T211056
