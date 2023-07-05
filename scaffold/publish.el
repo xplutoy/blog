@@ -1,10 +1,15 @@
 ;;; publish.el --- notes setting. -*- lexical-binding: t no-byte-compile: t -*-
 (require 'package)
+(setq
+ package-archives
+ '(("melpa"         . "https://melpa.org/packages/")
+   ("melpa-stable"  . "https://stable.melpa.org/packages/")
+   ("gnu"           . "https://elpa.gnu.org/packages/")
+   ("nongnu"        . "https://elpa.nongnu.org/nongnu/"))
 (package-initialize)
 (unless package-archive-contents
   (package-refresh-contents))
-(dolist (pkg '(org-roam
-               htmlize))
+(dolist (pkg '(org-roam htmlize))
   (unless (package-installed-p pkg)
     (package-install pkg)))
 (require 'org-roam)
