@@ -1,15 +1,16 @@
-#+title:      emacs plugin  :  easy-kill
-#+date:       [2023-02-11 六 04:51]
-#+filetags:   :tool:
-#+identifier: 20230211T045151
+:PROPERTIES:
+:ID:       D9E04AAD-0549-4A73-9B03-6170AE5207A3
+:END:
+#+title: easy kill in emacs
+#+filetags: :draft:
 * Intro
 [[https://github.com/leoliu/easy-kill][Easy-kill]] 是一个编辑增强插件，主要提升 emacs 标记复制等操作的效率。
 * Setup
-#+begin_src elisp
-(use-package easy-kill
-  :bind (([remap kill-ring-save] . easy-kill)
-         ([remap mark-sexp] . easy-mark))
-  )
+#+begin_src emacs-lisp
+  (use-package easy-kill
+    :bind (([remap kill-ring-save] . easy-kill)
+           ([remap mark-sexp] . easy-mark))
+    )
 #+end_src
 * Usage
 Easy-kill 提供了 easy-kill 和 easy-mark 两个命令。按如上配置替换对应原生命令后，现在 M-w 既是一个命令，也同时是一个命令前缀。当单独按下 M-w 时，依次按 region，url ，email，current-line，来判断光标下的内容，如有满足则选择（selection）并复制。当作为命令前缀，可接本对象，直接进行复制：
@@ -37,3 +38,4 @@ Easy-kill 提供了 easy-kill 和 easy-mark 两个命令。按如上配置替换
 | M-w l 2 C-w | 选中3行复制剪切，并退出                 |
 * Comment
 编辑思想跟 [[https://github.com/mawww/kakoune][kakoune]] 类比较类似，选择+操作。是一种很高效直观的编辑方式。
+

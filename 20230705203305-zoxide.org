@@ -1,0 +1,46 @@
+:PROPERTIES:
+:ID:       47BE20D8-15D3-44F5-8F7C-9D2A58B18A88
+:END:
+#+title: zoxide
+#+filetags: :draft:
+* Intro
+zoxide is a smarter cd command, inspired by z and autojump.
+* Install
+1. 在MacOS上，执行如下命令安装：
+#+begin_src shell
+  brew install zoxide
+#+end_src
+2. 在shell的配置文件(~/.zshrc)中写入（必须放在compinit的调用后面）：
+#+begin_src shell
+  eval "$(zoxide init zsh)"
+#+end_src
+  3. 迁移fasd的数据：
+#+begin_src shell
+  zoxide import --from=z $HOME/.fasd
+#+end_src
+* Usage
+看官方示例：
+#+begin_src shell
+  z foo              # cd into highest ranked directory matching foo
+  z foo bar          # cd into highest ranked directory matching foo and bar
+  z foo /            # cd into a subdirectory starting with foo
+  z ~/foo            # z also works like a regular cd command
+  z foo/             # cd into relative path
+  z ..               # cd one level up
+  z -                # cd into previous directory
+  zi foo             # cd with interactive selection (using fzf)
+  z foo<SPACE><TAB>  # show interactive completions (zoxide v0.8.0+, bash 4.4+/fish/zsh only)
+#+end_src
+* Emacs插件
+zoxide可以通过插件 [[https://gitlab.com/Vonfry/zoxide.el][zoxide.el]] 集成到emacs中。我自己绑定了两个常用的函数：
+#+begin_src emacs-lisp
+  (yx-space-leader-def
+    "ff" zoxide-find-file
+    "zf" zoxide-find-file
+    "zc" zoxide-cd)
+#+end_src
+跟emacs自带的 find-file 相比，可以省去很多的目录切换操作。当然，
+前提是你要打开的文件的目录记录在zoxide中。
+* 心得
+z 命令已经成为日常在终端中使用最多的命令。其思想简单，效率提升惊人。
+

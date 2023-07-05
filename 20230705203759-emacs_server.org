@@ -1,7 +1,8 @@
-#+title:      emacs-server
-#+date:       [2023-02-09 四 15:52]
-#+filetags:   :tool:
-#+identifier: 20230209T155228
+:PROPERTIES:
+:ID:       FF3A4841-E7A4-4DC7-ADE8-9B457CB6D9E7
+:END:
+#+title: emacs server
+#+filetags: :draft:
 
 * Intro
 快速启动emacs是一个问题：
@@ -11,21 +12,21 @@
 * Setup
 ** 方法一
 1. 按如下命令启动 emacs（server-name可以省略，默认为 "server"）：
-   #+begin_src shell
+#+begin_src shell
    emacs --daemon[=server-name]
-   #+end_src
+#+end_src
 2. 有编辑需求时，用emacsclient启动：
-   #+begin_src shell
+#+begin_src shell
    # 图形界面
    emacsclient -s server -n -c
    # 终端界面
    emacsclient -s server -t
-   #+end_src
+#+end_src
 参数说明：-c参数表示gui启动，-n告诉程序不等待终端返回，跟-c参数结合使用；-s选择
 连接的服务器名，-t表示在终端中启动。
 *** 系统自启动
 #+begin_src shell
-brew services start d12frosted/emacs-plus/emacs-plus@28
+  brew services start d12frosted/emacs-plus/emacs-plus@28
 #+end_src
 *** 打包成应用
 1. 打开automator
@@ -33,9 +34,9 @@ brew services start d12frosted/emacs-plus/emacs-plus@28
 3. 找到：运行shell脚本
 4. 界面的 _传递输入_ 按钮选为 _作为自变量_
 5. 输入启动emacs-client的shell命令:
-   #+begin_src shell
+#+begin_src shell
    /usr/local/bin/emacsclient -s server -n -c  "$@"
-   #+end_src
+#+end_src
 *** 遇到的问题
 - 在kitty终端中用-t参数执行会报找不到terminfo的错误，在命令前指定环境变量
   TERM=xterm-256color解决问题。
@@ -43,13 +44,14 @@ brew services start d12frosted/emacs-plus/emacs-plus@28
 ** 方法二
 直接在一个emacs的实例中启动服务，该服务和这个实例共生共灭。
 #+begin_src elisp
-(unless (server-running-p)
-  (server-start))
-;; 或者
-(use-package server
-  :ensure nil
-  :hook (after-init . server-mode))
+  (unless (server-running-p)
+    (server-start))
+  ;; 或者
+  (use-package server
+    :ensure nil
+    :hook (after-init . server-mode))
 #+end_src
 * 心得
 用了一段时间的方法一，但不时地出现一些小问题，而且在不同的系统上配置方法都不一样，
 所以现在主要使用第二种方法。简单，方便，一致。
+

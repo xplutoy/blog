@@ -1,8 +1,8 @@
-#+title:      用org和github-page搭建博客
-#+date:       [2023-02-12 日 19:31]
-#+filetags:   :tool:
-#+identifier: 20230212T193131
-
+:PROPERTIES:
+:ID:       B89BB54E-785F-4643-BAD9-9508D3D1D6CC
+:END:
+#+title: 用org和git-page搭建博客
+#+filetags: :draft:
 * Intro
 静态网站生产器，如 [[https://gohugo.io][HUGO]] ，[[https://jekyllrb.com][Jekyll]] ，只支持 [[https://www.markdownguide.org][Markdown]] 格式的文本。目前没有找到令自己满意的支持 Org 格式的替代品。所以就尝试用 Org 自带的 ox-publish 来生产静态页面，结合 github-page 做一个简单的个人笔记展示页面。
 
@@ -60,128 +60,128 @@ tree .github
 
 首先看 org-denotes-publish 脚本：
 #+begin_src yaml
-name: org-denotes-publish
+  name: org-denotes-publish
 
-on:
-  push:
-    branches: ["main"]
-  workflow_dispatch:
+  on:
+    push:
+      branches: ["main"]
+    workflow_dispatch:
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+  permissions:
+    contents: read
+    pages: write
+    id-token: write
 
-# Allow one concurrent deployment
-concurrency:
-  group: "pages"
-  cancel-in-progress: true
+  # Allow one concurrent deployment
+  concurrency:
+    group: "pages"
+    cancel-in-progress: true
 
-jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: purcell/setup-emacs@master
-        with:
-          version: 28.2
-      - uses: actions/checkout@v3
-      - run: |
-          cd scaffold
-          make clean
-          make
-      - uses: actions/configure-pages@v3
-      - uses: actions/upload-pages-artifact@v1
-        with:
-          path: './scaffold/public_html'
-      - uses: actions/deploy-pages@v1
+  jobs:
+    build-and-deploy:
+      runs-on: ubuntu-latest
+      steps:
+        - uses: purcell/setup-emacs@master
+          with:
+            version: 28.2
+        - uses: actions/checkout@v3
+        - run: |
+            cd scaffold
+            make clean
+            make
+        - uses: actions/configure-pages@v3
+        - uses: actions/upload-pages-artifact@v1
+          with:
+            path: './scaffold/public_html'
+        - uses: actions/deploy-pages@v1
 #+end_src
 上述脚本逻辑很清晰：配置环境-›构建静态网站-›发布。如何构建静态网站由我们自己控制，其他交由 github 。
 
 再看 Makefile 脚本：
 #+begin_src makefile
-# Makefile for myblog
-.PHONY: all publish publish_no_init
+  # Makefile for myblog
+  .PHONY: all publish publish_no_init
 
-all: publish
+  all: publish
 
-publish: publish.el
-  @echo "Publishing..."
-  emacs --batch -q --script publish.el
+  publish: publish.el
+    @echo "Publishing..."
+    emacs --batch -q --script publish.el
 
-clean:
-  @echo "Cleaning up.."
-  @rm -rvf *.elc
-  @rm -rvf ./public_html/
-  @rm -rvf ~/.org-timestamps/*
+  clean:
+    @echo "Cleaning up.."
+    @rm -rvf *.elc
+    @rm -rvf ./public_html/
+    @rm -rvf ~/.org-timestamps/*
 #+end_src
 这脚本很简单，执行 make 运行命令： ~emacs --batch -q --script publish.el~ ，也可以直接把这条命令写入 github-action 脚本中。
 
 接下来就是最重要的 publish.el 文件了：
-#+begin_src elisp
-;;; publish.el --- notes setting. -*- lexical-binding: t no-byte-compile: t -*-
-(require 'package)
-(package-initialize)
-(unless package-archive-contents
-  (package-refresh-contents))
-(dolist (pkg '(denote
-               htmlize))
-  (unless (package-installed-p pkg)
-    (package-install pkg)))
-(require 'denote)
-(require 'htmlize)
-(require 'ox-publish)
-(setq denote-directory "../")
+#+begin_src emacs-lisp
+  ;;; publish.el --- notes setting. -*- lexical-binding: t no-byte-compile: t -*-
+  (require 'package)
+  (package-initialize)
+  (unless package-archive-contents
+    (package-refresh-contents))
+  (dolist (pkg '(denote
+                 htmlize))
+    (unless (package-installed-p pkg)
+      (package-install pkg)))
+  (require 'denote)
+  (require 'htmlize)
+  (require 'ox-publish)
+  (setq denote-directory "../")
 
-(setq org-export-with-section-numbers t
-      org-export-htmlize-output-type 'css
-      org-export-with-smart-quotes t
-      org-export-with-sub-superscripts nil)
-(setq org-html-doctype "html5"
-      org-html-html5-fancy t
-      org-html-checkbox-type 'html
-      org-html-htmlize-output-type 'css
-      org-html-container-element "section"
-      org-html-head-include-default-style nil)
+  (setq org-export-with-section-numbers t
+        org-export-htmlize-output-type 'css
+        org-export-with-smart-quotes t
+        org-export-with-sub-superscripts nil)
+  (setq org-html-doctype "html5"
+        org-html-html5-fancy t
+        org-html-checkbox-type 'html
+        org-html-htmlize-output-type 'css
+        org-html-container-element "section"
+        org-html-head-include-default-style nil)
 
-(defvar yx/html-head "<link rel='stylesheet' href='./css/org.css' type='text/css'/>")
-(defvar yx/html-postamble "<div id='postamble' class='status'> <hr/> <p class='author'>Created with %c by %a <br\>Updated: %C<br/></p> </div>")
-(setq org-publish-project-alist
-      `(("yx-notes"
-         :components ("yx-notes-page" "yx-notes-static"))
-        ("yx-notes-page"
-         :base-directory "../"
-         :base-extension "org"
-         :publishing-directory "./public_html/"
-         :recursive nil
-         :publishing-function org-html-publish-to-html
-         :headline-levels 4
-         :auto-preamble t
-         :auto-sitemap t
-         :sitemap-filename "index.org"
-         :sitemap-sort-files anti-chronologically ;sort the posts from newest to oldest.
+  (defvar yx/html-head "<link rel='stylesheet' href='./css/org.css' type='text/css'/>")
+  (defvar yx/html-postamble "<div id='postamble' class='status'> <hr/> <p class='author'>Created with %c by %a <br\>Updated: %C<br/></p> </div>")
+  (setq org-publish-project-alist
+        `(("yx-notes"
+           :components ("yx-notes-page" "yx-notes-static"))
+          ("yx-notes-page"
+           :base-directory "../"
+           :base-extension "org"
+           :publishing-directory "./public_html/"
+           :recursive nil
+           :publishing-function org-html-publish-to-html
+           :headline-levels 4
+           :auto-preamble t
+           :auto-sitemap t
+           :sitemap-filename "index.org"
+           :sitemap-sort-files anti-chronologically ;sort the posts from newest to oldest.
 
-         :html-link-home "/yx-notes"
-         :html-link-up "/yx-notes"
-         :html-head-include-scripts nil
-         :html-head-include-default-style nil
-         :html-head ,yx/html-head
-         :html-postamble ,yx/html-postamble
-         )
-        ("yx-notes-static"
-         :base-directory "./"
-         :base-extension "css\\|js\\|png\\|jpg\\|gif"
-         :publishing-directory "./public_html/"
-         :recursive t
-         :publishing-function org-publish-attachment
-         ))
-      )
+           :html-link-home "/yx-notes"
+           :html-link-up "/yx-notes"
+           :html-head-include-scripts nil
+           :html-head-include-default-style nil
+           :html-head ,yx/html-head
+           :html-postamble ,yx/html-postamble
+           )
+          ("yx-notes-static"
+           :base-directory "./"
+           :base-extension "css\\|js\\|png\\|jpg\\|gif"
+           :publishing-directory "./public_html/"
+           :recursive t
+           :publishing-function org-publish-attachment
+           ))
+        )
 
-(org-publish "yx-notes" t nil)
-;;; publish.el ends here
+  (org-publish "yx-notes" t nil)
+  ;;; publish.el ends here
 #+end_src
 这个脚本：
 1. 安装必要插件：
-   - 我用 [[https://github.com/protesilaos/denote][denote]] 做笔记，它使用链接的形式是 ~denote:+id~ 的形式，为了正确导出成 html 识别的链接，必须导入 denote 包，并正确设置 *denote-directory* 变量。
+   - 我用org-roam做笔记，它使用链接的形式是的形式，为了正确导出成 html 识别的链接，必须导入org-roam包，并正确设置 *denote-directory* 变量。
    - 安装 htmlize 插件。
 2. 设置导出的一些参数：
    | ~org-export-with-section-numbers~     | ~t~   | 导出的每个 headline 上都有一个指示层级的数字 |
@@ -219,3 +219,4 @@ org-mode 导出 html 中的代码高亮由变量 ~org-html-htmlize-output-type~ 
 - [[https://taingram.org/blog/org-mode-blog.html][Building a Emacs Org-Mode Blog]]
 
 在配置中有思考有收获，或许这就是折腾的意义吧。
+

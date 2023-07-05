@@ -3,14 +3,15 @@
 (package-initialize)
 (unless package-archive-contents
   (package-refresh-contents))
-(dolist (pkg '(denote
+(dolist (pkg '(org-roam
                htmlize))
   (unless (package-installed-p pkg)
     (package-install pkg)))
-(require 'denote)
+(require 'org-roam)
+(require 'org-roam-export)
 (require 'htmlize)
 (require 'ox-publish)
-(setq denote-directory "../")
+(setq org-roam-directory "../")
 
 (setq org-export-with-section-numbers t
       org-export-htmlize-output-type 'css
@@ -41,8 +42,8 @@
          :sitemap-title "Technical Notes"
          :sitemap-sort-files anti-chronologically ;sort the posts from newest to oldest.
 
-         :html-link-home "/yx-notes"
-         :html-link-up "/yx-notes"
+         :html-link-home "/blog"
+         :html-link-up "/blog"
          :html-head-include-scripts nil
          :html-head-include-default-style nil
          :html-head ,yx/html-head
