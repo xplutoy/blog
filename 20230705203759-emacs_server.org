@@ -1,7 +1,7 @@
 :PROPERTIES:
 :ID:       FF3A4841-E7A4-4DC7-ADE8-9B457CB6D9E7
 :END:
-#+title: emacs server
+#+title: emacs_server
 #+filetags: :draft:
 
 * Intro
