@@ -1,6 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Lora:wght@500&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Inconsolata&display=swap");
 
+$smaller: 85%;
+
 body {
         margin: 40px auto;
         width: 680px;
@@ -25,10 +27,9 @@ h3 {
 }
 
 img {
-        width: 500px;
-        max-width: 100%;
+        width: 600px;
         border-radius: 10px;
-        text-align: center;
+        vertical-align: middle;
 }
 
 /* table */
@@ -81,6 +82,14 @@ a:visited:hover {
     padding: 0.1em 0.5em;
     position: relative;
     overflow: auto
+}
+
+#footnotes {
+    font-size: $smaller;
+}
+
+#bibliography {
+    font-size: $smaller;
 }
 
 pre {
