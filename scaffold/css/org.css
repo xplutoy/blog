@@ -26,13 +26,18 @@ h3 {
         font-family: "Lora";
 }
 
+figure {
+    padding: 0px;
+    margin: 1em auto;
+    text-align: center;
+}
+
 img {
         width: 600px;
         border-radius: 10px;
         vertical-align: middle;
 }
 
-/* table */
 table {
     margin: 1em auto;
     border-top: 1px solid;
@@ -47,17 +52,16 @@ table tr {
     border-top: 0.5px solid gray;
 }
 
-/* --------------------------------------------- */
-/* Bold hover animations on links and clickables */
-/* --------------------------------------------- */
 a {
         cursor: pointer;
         color: #217ab7;
         line-height: inherit;
         transition: .14s;
+        text-decoration: none;
 }
 a:hover {
         color: white;
+        border-bottom: 1px dotted;
         background-color: #3297d3;
 }
 a:visited {
@@ -67,6 +71,14 @@ a:visited {
 a:visited:hover {
         color: white;
         background-color: #9251ac;
+}
+
+#footnotes {
+    font-size: $smaller;
+}
+
+#bibliography {
+    font-size: $smaller;
 }
 
 ::selection {
@@ -82,14 +94,6 @@ a:visited:hover {
     padding: 0.1em 0.5em;
     position: relative;
     overflow: auto
-}
-
-#footnotes {
-    font-size: $smaller;
-}
-
-#bibliography {
-    font-size: $smaller;
 }
 
 pre {
