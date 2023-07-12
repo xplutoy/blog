@@ -1,32 +1,29 @@
 @import url("https://fonts.googleapis.com/css2?family=Lora:wght@500&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Inconsolata&display=swap");
 
-$smaller: 85%;
 
 body {
-        margin: 40px auto;
-        width: 700px;
-        max-width: 100%;
-        line-height: 1.4em;
-        background: #fffff4;
-        color: #3a1616;
-        padding: 0 10px;
-        font-size: 16px;
-        font-family: "Lora";
-        font-weight: normal;
+    width: 700px;
+    margin: 40px auto;
+    line-height: 1.4em;
+    background: #fffff4;
+    color: #3a1616;
+    padding: 0 10px;
+    font-size: 16px;
+    font-family: "Lora";
 }
 
 h1,
 h2,
 h3 {
-        line-height: 1.4em;
-        font-family: "Lora";
+    line-height: 1.4em;
+    font-family: "Lora";
 }
 
 img {
-        width: 600px;
-        border-radius: 10px;
-        text-align: middle;
+    width: 600px;
+    border-radius: 10px;
+    text-align: middle;
 }
 
 table {
@@ -44,37 +41,37 @@ table tr {
 }
 
 a {
-        cursor: pointer;
-        color: #217ab7;
-        line-height: inherit;
-        transition: .14s;
-        text-decoration: none;
+    cursor: pointer;
+    color: #217ab7;
+    line-height: inherit;
+    transition: .14s;
+    text-decoration: none;
 }
 a:hover {
-        color: white;
-        border-bottom: 1px dotted;
-        background-color: #3297d3;
+    color: white;
+    border-bottom: 1px dotted;
+    background-color: #3297d3;
 }
 a:visited {
-        color: #43458b;
-        border-color: #43458b;
+    color: #43458b;
+    border-color: #43458b;
 }
 a:visited:hover {
-        color: white;
-        background-color: #9251ac;
+    color: white;
+    background-color: #9251ac;
 }
 
 footnotes {
-    font-size: $smaller;
+    font-size: smaller;
 }
 
 bibliography {
-    font-size: $smaller;
+    font-size: smaller;
 }
 
 ::selection {
-        color: white;
-        background: #ff4081;
+    color: white;
+    background: #ff4081;
 }
 
 /* code highlight */
@@ -130,6 +127,6 @@ pre span.org-diff-none                   {color:#545454;}
 pre span.org-diff-removed                {color:#A60000;}
 
 .status {
-    font-size: $smaller;
+    font-size: smaller;
     margin: 2em auto;
 }
