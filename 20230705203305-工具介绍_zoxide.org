@@ -1,7 +1,7 @@
 :PROPERTIES:
 :ID:       47BE20D8-15D3-44F5-8F7C-9D2A58B18A88
 :END:
-#+title: zoxide
+#+title: 工具介绍_zoxide
 #+filetags: :draft:
 * Intro
 zoxide is a smarter cd command, inspired by z and autojump.
@@ -43,4 +43,3 @@ zoxide可以通过插件 [[https://gitlab.com/Vonfry/zoxide.el][zoxide.el]] 集�
 前提是你要打开的文件的目录记录在zoxide中。
 * 心得
 z 命令已经成为日常在终端中使用最多的命令。其思想简单，效率提升惊人。
-
