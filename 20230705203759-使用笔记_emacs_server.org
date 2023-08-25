@@ -51,6 +51,6 @@
     :ensure nil
     :hook (after-init . server-mode))
 #+end_src
-* 心得
+* Comment
 用了一段时间的方法一，但不时地出现一些小问题，而且在不同的系统上配置方法都不一样，
 所以现在主要使用第二种方法。简单，方便，一致。

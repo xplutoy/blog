@@ -1,7 +1,7 @@
 :PROPERTIES:
 :ID:       D9E04AAD-0549-4A73-9B03-6170AE5207A3
 :END:
-#+title: emacs_easy-kill
+#+title: 工具介绍_easy-kill
 #+filetags: :draft:
 * Intro
 [[https://github.com/leoliu/easy-kill][Easy-kill]] 是一个编辑增强插件，主要提升 emacs 标记复制等操作的效率。
@@ -38,4 +38,3 @@ Easy-kill 提供了 easy-kill 和 easy-mark 两个命令。按如上配置替换
 | M-w l 2 C-w | 选中3行复制剪切，并退出                 |
 * Comment
 编辑思想跟 [[https://github.com/mawww/kakoune][kakoune]] 类比较类似，选择+操作。是一种很高效直观的编辑方式。
-
