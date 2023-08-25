@@ -19,7 +19,7 @@ zoxide is a smarter cd command, inspired by z and autojump.
   zoxide import --from=z $HOME/.fasd
 #+end_src
 * Usage
-看官方示例：
+** 示例：
 #+begin_src shell
   z foo              # cd into highest ranked directory matching foo
   z foo bar          # cd into highest ranked directory matching foo and bar
@@ -31,7 +31,7 @@ zoxide is a smarter cd command, inspired by z and autojump.
   zi foo             # cd with interactive selection (using fzf)
   z foo<SPACE><TAB>  # show interactive completions (zoxide v0.8.0+, bash 4.4+/fish/zsh only)
 #+end_src
-* Emacs插件
+** Emacs前端
 zoxide可以通过插件 [[https://gitlab.com/Vonfry/zoxide.el][zoxide.el]] 集成到emacs中。我自己绑定了两个常用的函数：
 #+begin_src emacs-lisp
   (yx-space-leader-def
@@ -41,5 +41,5 @@ zoxide可以通过插件 [[https://gitlab.com/Vonfry/zoxide.el][zoxide.el]] 集�
 #+end_src
 跟emacs自带的 find-file 相比，可以省去很多的目录切换操作。当然，
 前提是你要打开的文件的目录记录在zoxide中。
-* 心得
+* Comment
 z 命令已经成为日常在终端中使用最多的命令。其思想简单，效率提升惊人。
