@@ -77,7 +77,6 @@ bibliography {
 /* code highlight */
 .org-src-container {
     border: 1px solid #ccc;
-    box-shadow: 3px 3px 3px #eee;
     margin: 1em auto;
     padding: 0.1em 0.5em;
     position: relative;
@@ -89,17 +88,12 @@ pre {
     font-family: "Inconsolata", monospace;
 }
 
-pre.src {
-    position: relative;
-    overflow-x: auto;
-}
-
 pre.src:before {
     display: inline;
     position: absolute;
     font-size: 16px;
     font-weight: bold;
-    color: #bfbfbf;
+    color: #6434A3;
 }
 
 pre.src-awk:before { content: 'awk'; }
@@ -108,7 +102,7 @@ pre.src-R:before { content: 'R'; }
 pre.src-julia:before { content: 'julia'; }
 pre.src-python:before { content: 'python'; }
 pre.src-css:before { content: 'css'; }
-pre.src-emacs-lisp:before { content: 'emacs lisp'; }
+pre.src-emacs-lisp:before { content: 'emacs-lisp'; }
 
 /* Set the colors in <pre> blocks from the Leuven theme */
 pre span.org-builtin                     {color:#006FE0;font-weight:bold;}
