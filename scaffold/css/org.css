@@ -86,6 +86,7 @@ bibliography {
 pre {
     font-size: 15px;
     font-family: "Inconsolata", monospace;
+    padding: 5px; 10px; 2px; 2px;
 }
 
 pre.src:before {
