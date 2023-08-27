@@ -84,24 +84,8 @@ pre {
 
 pre.src {
     position: relative;
-    margin: 5px;
-    padding: 10px 5px 5px 5px;
+    padding: 10px;
 }
-
-pre.src:before {
-    display:inline;
-    position:absolute;
-    right: 5px
-    padding: 5px;
-}
-
-pre.src-awk:before { content: 'awk'; }
-pre.src-c:before { content: 'c'; }
-pre.src-R:before { content: 'R'; }
-pre.src-julia:before { content: 'julia'; }
-pre.src-python:before { content: 'python'; }
-pre.src-css:before { content: 'css'; }
-pre.src-emacs-lisp:before { content: 'emacs-lisp'; }
 
 /* Set the colors in <pre> blocks from the Leuven theme */
 pre span.org-builtin                     {color:#006FE0;font-weight:bold;}
