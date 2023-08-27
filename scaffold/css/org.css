@@ -86,7 +86,13 @@ bibliography {
 pre {
     font-size: 15px;
     font-family: "Inconsolata", monospace;
-    padding: 5px; 10px; 2px; 2px;
+    padding: 2px;
+}
+
+pre.src {
+    position: relative;
+    overflow-x: auto;
+    top:-10px
 }
 
 pre.src:before {
