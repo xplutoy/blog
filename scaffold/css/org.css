@@ -76,24 +76,23 @@ bibliography {
 
 /* code highlight */
 pre {
-    margin: 1.0em;
-    padding: 0.8em;
+    overflow-x: auto;
     border: 1px solid #ccc;
     font-size: 15px;
     font-family: "Inconsolata", monospace;  
 }
 
 pre.src {
-    overflow-x: auto;
     position: relative;
-    padding-top: 1.2em;
+    margin: 5px;
+    padding: 10px 5px 5px 5px;
 }
 
 pre.src:before {
     display:inline;
     position:absolute;
-    top:-10px;
-    padding:3px;
+    right: 5px
+    padding: 5px;
 }
 
 pre.src-awk:before { content: 'awk'; }
