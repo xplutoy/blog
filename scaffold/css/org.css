@@ -85,20 +85,25 @@ bibliography {
 }
 
 pre {
+    padding: 10px;
     box-shadow: 3px 3px 3px #eee;
-    border: #ddd solid 1px;
     font-size: 15px;
     font-family: "Inconsolata", monospace;
+}
+
+pre.src {
+    position: relative;
+    overflow-x: auto;
 }
 
 pre.src:before {
     display: inline;
     position: absolute;
-    font-size: 17px;
+    font-size: 16px;
     font-weight: bold;
     text-shadow: 0 0 0 rgba(0, 0, 0, 0.2);
     color: #bfbfbf;
-    top: 5px;
+    top: 2px;
     right: 10px;
     padding: 3px;
 }
