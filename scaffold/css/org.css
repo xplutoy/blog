@@ -75,20 +75,12 @@ bibliography {
 }
 
 /* code highlight */
-.org-src-container {
-    border: 1px solid #ccc;
-    margin: 1em auto;
-    padding: 0.1em 0.5em;
-    position: relative;
-    overflow: auto
-}
-
 pre {
+    margin: 1.0em;
+    padding: 0.8em;
+    border: 1px solid #ccc;
     font-size: 15px;
-    font-family: "Inconsolata", monospace;
-    box-shadow:3px 3px 3px #eee;
-    padding: 8pt;
-    margin: 1.2em;
+    font-family: "Inconsolata", monospace;  
 }
 
 pre.src {
