@@ -85,8 +85,32 @@ bibliography {
 }
 
 pre {
+    box-shadow: 3px 3px 3px #eee;
+    border: #ddd solid 1px;
+    font-size: 15px;
     font-family: "Inconsolata", monospace;
 }
+
+pre.src:before {
+    display: inline;
+    position: absolute;
+    font-size: 17px;
+    font-weight: bold;
+    text-shadow: 0 0 0 rgba(0, 0, 0, 0.2);
+    color: #bfbfbf;
+    top: 5px;
+    right: 10px;
+    padding: 3px;
+}
+
+/* Languages per Org manual */
+pre.src-awk:before { content: 'awk'; }
+pre.src-c:before { content: 'c'; }
+pre.src-R:before { content: 'R'; }
+pre.src-julia:before { content: 'julia'; }
+pre.src-python:before { content: 'python'; }
+pre.src-css:before { content: 'css'; }
+pre.src-emacs-lisp:before { content: 'emacs lisp'; }
 
 /* Set the colors in <pre> blocks from the Leuven theme */
 pre span.org-builtin                     {color:#006FE0;font-weight:bold;}
