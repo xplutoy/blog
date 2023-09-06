@@ -1,8 +1,8 @@
-:PROPERTIES:
-:ID:       B89BB54E-785F-4643-BAD9-9508D3D1D6CC
-:END:
-#+title: 用org和git-page搭建博客
-#+filetags: :draft:
+#+title:      用Org和GitPage搭建博客
+#+date:       [2023-09-07 Thu 00:09]
+#+filetags:   :post:
+#+identifier: 20230907T000957
+
 * Intro
 静态网站生产器，如 [[https://gohugo.io][HUGO]] ，[[https://jekyllrb.com][Jekyll]] ，只支持 [[https://www.markdownguide.org][Markdown]] 格式的文本。目前没有找到令自己满意的支持 Org 格式的替代品。所以就尝试用 Org 自带的 ox-publish 来生产静态页面，结合 github-page 做一个简单的个人笔记展示页面。
 
@@ -219,4 +219,3 @@ org-mode 导出 html 中的代码高亮由变量 ~org-html-htmlize-output-type~ 
 - [[https://taingram.org/blog/org-mode-blog.html][Building a Emacs Org-Mode Blog]]
 
 在配置中有思考有收获，或许这就是折腾的意义吧。
-

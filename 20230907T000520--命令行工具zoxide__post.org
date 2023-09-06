@@ -1,8 +1,8 @@
-:PROPERTIES:
-:ID:       47BE20D8-15D3-44F5-8F7C-9D2A58B18A88
-:END:
-#+title: 工具介绍_zoxide
-#+filetags: :draft:
+#+title:      命令行工具Zoxide
+#+date:       [2023-09-07 Thu 00:05]
+#+filetags:   :post:
+#+identifier: 20230907T000520
+
 * Intro
 zoxide is a smarter cd command, inspired by z and autojump.
 * Install

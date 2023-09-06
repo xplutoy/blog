@@ -1,8 +1,8 @@
-:PROPERTIES:
-:ID:       D9E04AAD-0549-4A73-9B03-6170AE5207A3
-:END:
-#+title: 工具介绍_easy-kill
-#+filetags: :draft:
+#+title:      Emacs插件EasyKill
+#+date:       [2023-09-07 Thu 00:08]
+#+filetags:   :post:
+#+identifier: 20230907T000854
+
 * Intro
 [[https://github.com/leoliu/easy-kill][Easy-kill]] 是一个编辑增强插件，主要提升 emacs 标记复制等操作的效率。
 * Setup

@@ -9,12 +9,11 @@
  (package-initialize)
 (unless package-archive-contents
   (package-refresh-contents))
-(dolist (pkg '(org-roam htmlize))
+(dolist (pkg '(denote htmlize))
   (unless (package-installed-p pkg)
     (package-install pkg)))
-(require 'org-roam)
-(require 'org-roam-export)
 (require 'htmlize)
+(require 'denote)
 (require 'ox-publish)
 (setq org-roam-directory "../")
 
