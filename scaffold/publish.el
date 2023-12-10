@@ -22,6 +22,8 @@
       org-export-with-smart-quotes t
       org-export-with-footnotes t
       org-export-with-sub-superscripts nil)
+(setq org-export-global-macros
+      '(("timestamp" . "@@html:<span class=\"timestamp\">[$1]</span>@@")))
 (setq org-html-doctype "html5"
       org-html-html5-fancy t
       org-html-checkbox-type 'html
