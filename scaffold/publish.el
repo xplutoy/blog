@@ -15,7 +15,7 @@
 (require 'htmlize)
 (require 'denote)
 (require 'ox-publish)
-(setq org-roam-directory "../")
+(setq user-full-name "yx")
 
 (setq org-export-with-section-numbers t
       org-export-htmlize-output-type 'css
