@@ -15,7 +15,7 @@
 (require 'htmlize)
 (require 'denote)
 (require 'ox-publish)
-(setq user-full-name "yx")
+(setq user-full-name "Yang Xue")
 
 (setq org-export-with-section-numbers t
       org-export-htmlize-output-type 'css
