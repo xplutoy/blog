@@ -1,0 +1,355 @@
+#+title:      Meow使用指南
+#+date:       [2023-09-06 Wed 22:12]
+#+filetags:   :post:
+#+identifier: 20230906T221209
+
+* Intro
+meow是一个模态编辑模式，与evil类似，其命令与具体的模式有关，其大致思想就是把文本编辑大致分为插入和编辑模态，不同的模特完成不同的任务，这可以减少每个操作的按键次数，达到高效快速编辑的作用。
+
+以移动命令举例，在emacs中，向前移动一个字符的快捷键为 ~C-f~ ，但在vim中，或者meow中，只要切换到Nornal模态中，按一个键 ~f~ 就可以了。
+
+我们现在来考虑，这两种编辑方式哪一种更有优势。
+
+如果文本插入和文本编辑之间相互穿插的很频繁，那么来回切换模式就很麻烦，这时候用emacs的编辑方式就很方便，可以省去很多模态切换的操作；如果文本插入和文本编辑之间切换的时间间隔很长，这时候模态编辑方式就更方便，一次模态切换，可以省去很多的modifier-key的按键操作，高效又省力。
+
+所以结合这两种方式才是最好的，这也是evil这个插件设计的原则，不要把emacs和vim放在对立面上，而是把各自的优点结合在一起。这是一种很好的实用主义的观点和设想。不过evil更偏重于引入vim的编辑方式到emacs世界中，但没有太考虑如何更好的结合这两种方式，这些需要你自己去思考和设计。所以安装evil后，如果不经过快捷按键的精心设计，那么则会导致按键配置的冗余和混乱。比如我刚开始用evil时，引入了evil的leader-key的按键配置的同时也保留着emacs的原始按键配置，经常一个命令对应多个快捷按键，增加了很多记忆负担，也容易引起编辑时的选择困难。
+
+如何结合emacs和模态编辑呢，一种简单的想法是，在插入模态中，保留emacs的编辑命令，这有点像spacemacs的hybrid模态，这样在实际编辑时，就可以根据当前编辑任务的具体情况，选择切换到Normal模式进行集中编辑，还是就在Insert模态中直接用emacs的编辑命令编辑，然后继续插入。
+
+meow没有vim的包袱，更加纯粹，而且在设计之初就考虑了如何与emacs的按键设计兼容与结合。所以引入meow并不会增加多余的记忆负担和按键冗余。同时，它不用考虑vim的兼容问题，所以可以只配置自己需要的按键。
+
+如不是考虑到放弃vim的成本，可能自己早就迁移过来了，看这次学习的情况如何吧，如果顺利，后面就完全迁移到这个上面来。
+
+** Normal模态
+1. 移动
+Normal模态下的基于字符的移动，与vim一致，使用 ~h,j,k,l~ 。
+| h | move left  |
+| j | move down  |
+| k | move up    |
+| l | move right |
+2. 删除
+| d | 向前删除一个字符 |
+| D | 向后删除一个字符 |
+
+** Insert模态
+按 ~i~ 进入「Insert模态」，按 ~ESC~ 键退出「Insert」进入「Normal」。一些其他进入「Insert」的快捷方式
+| i   | Insert cursor before the selection     |
+| a   | Insert cursor after the selection      |
+| I   | Insert new line above the current line |
+| A   | Insert new line below the current line |
+| m a | Insert cursor at the start of the line |
+| x a | Insert cursor at the end of the lin    |
+
+其中 ~m~ 是向后选择当前行的开头直到非空行的结尾， ~a~ 是在当前选择后面插入，组合在一起就是在当前行的开头插入。同样 ~x~
+是向前选择当前行到其结尾，然后 ~a~ 在选择后插入，结合起来就是在当前行结尾处插入。
+
+在这里可以看到meow的编辑模式，选择+动作。这一点跟vim刚好是反过来的。
+
+** 选择命令
+除了上面的 ~x~ 和 ~m~ 外，还有其他一些选择命令，跟vim一样，也是按照语义来定义的：
+| e | 向前选择，直到当前word末尾                                             |
+| E | 向前选择，直到当前符号末尾                                              |
+| b | 向后选择，直到当前单词开头                                              |
+| B | 向后选择，直到当前符号开头                                              |
+| s | 删除当前选择，如果当前没有任何选择，则删除当前位置到该行结尾，类似于emacs的C-k |
+| d | 删除当前char                                                         |
+| w | 选择当前光标下的整个单词                                               |
+| W | 选择当前光标下的整个符号                                               |
+
+符号只用空格隔开，单词可以用其他字符隔开。
+
+** 扩展选择
+当按了上面选择命令后，可以接着进行选择扩展，比如按了 ~w~
+选择当前单词，在按 ~e~ 向前继续扩展选择到下一个单词末尾。大致模式是，选择命令后面继续接选择命令为扩展选择区域。
+
+可以按 ~;~ 调转光标在选择区域中的方向， ~z~ 是undo之前的选择， ~g~ 是清楚当前所有选择。
+
+** 依对象扩展选择区域
+除了上面的选择扩展，还有更加通用的基于对象的扩展选择操作：
+| [ | expand before cursor until beginning of... |
+| ] | expand after cursor until end of...        |
+| , | select the inner part of...                |
+| . | select the whole part of...                |
+这些操作后面接不同的对象，完成不同编辑区域的选择：
+| r | round parenthesis  |
+| s | square parenthesis |
+| c | curly parenthesis  |
+| g | string             |
+| p | paragraph          |
+| l | line               |
+| d | defun              |
+| b | buffer             |
+meow为这些操作提供了方面的操作界面，在Normal模态按下操作，比如 ~]~ ，meow会马上弹出对象选择菜单，而不用完全把这些对象记住，其在可用性方面做得比vim更好。
+
+meow的在做选择操作的同时也移动光标，比如要移动到整个buffer的开头，可以按 ~[b~ ，这对应于vim的 ~gg~ 命令，以及emacs的 ~M-<~ 命令。但这种统一选择移动的设计，让这种方式更容易理解和记忆，这是vim和emacs之前所缺失的。
+
+要回到之前的位置，只需按 ~z~ 取消之前的选择就可以了。
+
+注意，有些对象必须在对应的major-mode中才有用，比如defun对象，一般而言要在prog-mode中才能正确识别。
+
+** find/till
+| t | select until the next specific characte |
+| f | same to t, but jump over that character |
+
+这个命令类似于vim的t，f命令，向前跳转到某个字符，可以通过 ~-~ 指定向后的方向，在vim中则是用大写字母T，F来向后查找。用 ~-~ 这种方式指定方向的思想来自emacs的universal-args，这是meow结合vim和emacs两个世界的优势的一个例证。
+
+在emacs中要完成这些操作，需要调用 ~zap-uo-to-word~ 命令，一般绑定到 ~M-z~ ，可以通过 ~C-u -~ 或者 ~M--~ 来指定方向。
+
+与vim和emacs比较而言，meow的方式更加简洁高效。
+
+** 修改命令
+| c   | delete the current selection and switch to Insert mode |
+| d i | 与 c d等同                                              |
+| s   | kill，剪切复制当前选择区域                                 |
+| y   | yank,复制当前区域                                        |
+| p   | 在当前光标插入复制内容                                     |
+| u   | undo                                                   |
+| U   | 只undo当前选中区域的内容                                   |
+
+** BEACON (BATCHED KEYBOARD MACROS)
+meow这种先选择后操作的模式，可以让其执行multi-editing像内置操作一样容易。
+1. 首先选择一块区域，可以通过任何选择操作
+2. 按 ~G~ 进入BEACON模态
+3. 执行选择（子选择），修改操作（这会在所有子区域同时执行修改操作）。
+4. 退出Insert模态，并按 ~G~ 退出Beacon模态
+5. 完成编辑
+
+这是meow与vim之间最大的不同，其强大简洁的multi-editing能力，是其最吸引我的地方。
+
+*** Beacon可以结合emacs的keyboard-macros系统完成复杂的编辑任务
+下面是一个例子：
+#+begin_example
+  1 2 3
+  =>
+  [| "1" |] [| "2" |] [| "3" |]
+#+end_example
+
+具体操作：
+1. 把光标放到例子的第一行，按 ~x~ 选择要编辑的行
+2. 按 ~G~ 进入Beacon模态
+3. 按 ~b~ 在每个单词的前段插入伪光标
+4. 按 ~F3~ 启动emacs的key-marco记录
+5. 编辑
+6. 按 ~F4~ 介绍宏记录并应用
+7. 按 ~G~ 结束Beacon模态
+8. 编辑结束
+
+另一个例子：
+#+begin_example
+  x-y-foo-bar-baz
+  =>
+  x_y_foo_bar_baz
+#+end_example
+
+具体操作：
+1. 按 ~W~ 选中第一行的整个符号
+2. 按 ~G~ 激活第二选择区域
+3. 按 ~f -~ 查找每个“-”字符，并在字符“-”处自动插入伪光标
+4. 按 ~c~ 修改字符“-”，meow会自动进行记录
+5. 输入“-”
+6. 按 ~ESC~ 退出Insert模态，进入Normal模态，这时meow会在所有伪光标处应用记录
+7. 按 ~G~ 退出Beacon模态，完成编辑
+
+** 快速访问和搜索
+按 ~v~ 启动快速访问，它会在minibuffer中提示用户输入要快速访问的符号，然后在当前buffer中定位到这个符号，可以通过命令 ~n~ 跳转到下一个匹配的符号。可以通过 ~;~ 来改变查找方向。 ~n~ 操作会遵循当前方向进行查找。
+
+另外，只要你有选择某块区域，就可以直接用 ~n~ 操作进行快速搜索，比如用 ~w~ 选中当前单词，然后按 ~n~ 进行搜索。
+
+用快速访问实现emacs中的serach-replace操作:
+1. 按 ~v~ 快速访问要查找的单词
+2. 按 ~c~ 修改查找到的单词，然后按 ~ESC~ 进入Normal模式
+3. 按 ~y~ 保存替换的内容
+4. 按 ~n r~ ，查找下一个并替换
+
+* Conceptions
+** 模态
+emacs里面分major-mode和mirror-mode，vim中有插入模态和Normal模态，这两者有交叉，但也有很大不同。
+
+在emacs中，major-mode是跟文件类型相关联的，每一种特定的文件类型对应一种major-mode，其中定义了大部分与这类文件相关的操作和定义。其他一些通用的特性通过很多不同的mirror-mode提供，比如hl-line-mode可以高亮当前行，display-line-numbers-mode可以在当前buffer显示行号。这种设计赋予了其极强的扩展能力。
+
+vim中的模态只针对编辑而言，其中不包括与当前载入buffer文档类型相关的东西，因此其扩展性要差一些。不过这不算其缺点，文本编辑本就是其主要业务，而vim把这一块做到了极致。更加高效更加细粒度的编辑方式是vim的最主要优势。由于其功能内聚，所以其小巧干练，这是它最吸引我的地方。
+
+meow是emacs极强扩展能力的一个强有力的例证，它结合了emacs和vim的各自优势。
+
+为了区分emacs的mode和vim的模式，在meow中，类vim的模式称之为模态，emacs的major-mode和mirror-mode叫做主模式和副模式。这两种不同模式结合在一起，使得我们可以根据实际需求，使用各自的功能。以前的emacs编辑模式可以看做这种结合下的Insert模态，在这种模式下可以直接输入内容，同时也可以用modifier-key的方式调用emacs的编辑功能。另一方面，在Normal模式下，也可以同时调用更简短的vim式的快速编辑命令，也可以直接用modifier-key的方式或者leader-key（keypad）的方式调用emacs的命令。
+
+evil的目标是在emacs上完全模拟vim，怎么把evil整合到emacs的工作流中，需要用户自己思考和配置。比如在evil中的Insert下，为了模仿vim中的按键，因此覆盖了许多emacs原本的按键，这些冲突的地方，都需要用户自己去留意和配置。也因此，在evil中，Insert模态与emacs的编辑模态不一样，为了解决这个问题，又单独增加了一个emacs模态，以和evil的Insert模态做区分。这样在evil中就包含了两种输入模态，搞得挺麻烦，而且这种设计还割裂了emacs和vim的各自优点。在emacspace这个start-kit发行版中又单独引入hybird模态，来融合这两者。总之，evil背负太多的vim的负担了，导致其有些臃肿。
+
+emacs中，除了编辑模式，还有很多special-mode，比如dired，ibuffer等功能所使用的major-mode都继承于speical-mode。因为这些模式中的操作不同于文本插入和文本编辑，所以在vim和meow中都引入motion模态来处理这种情况。
+
+*** Motion模态
+在meow中，MOTION模态默认使用 ~SPC~ 作为leader-key，原本的 ~SPC~ 可以通过 ~SPC SPC~ 访问，除此之外就再没有绑定其他快捷键了。在EOTION模态下，如果定义的快捷键覆盖了emacs已有的快捷键，那么emacs原本的快捷键被重新绑定到 ~H-<key>~ 上。比如为了在MOTION模态中也使用 ~j,k~ 进行上下移动，可以通过如下配置达成：
+#+begin_src emacs-lisp
+  (meow-motion-overwrite-define-key '("j" . next-line))
+  (meow-leader-define-key '("j" . "H-j"))
+#+end_src
+访问emacs原本j绑定的功能，可以通过 ~H-j~ ，或者 ~SPC j~ .
+
+*** keypad模态
+这个模态类似于vim的leader-key，但又很不同，它实现了不用按modifier-key来复用emacs的modifier-keybings。在Normal模态中按 ~SPC~ 进入kaypad模态，然后用户的按键会按下面的规则进行转换：
+1. 首字母除了「x，c，h，m，g」，会被转换成 ~C-c <key>~
+2. m 会转换成 ~M-~ ，后接另一个字母，则为 ~M-<key>~ ，比如 ~SPC m h~ 会转换成 ~M-h~
+3. g 会转换成 ~C-M-~
+4. 中间的 ~SPC~ 表示下一个输入没有特殊含义，有点类似转义字符，比如 ~m g SPC g => M-g g~
+5. 其他情况下，输入会转换成 ~C-<key>~ ，比如 ~x f => C-x C-f~
+
+这个模式很有用处：
+1. 它可以简化按键，比如上面的（5）中，用 ~SPC x f => C-x C-f~ 可以减少一个按键，关键的是少了两次modifier-key按键，这对小拇指的健康很重要。
+2. 它复用了emacs本身的按键，而不是单独新增一种按键设置，所以在我们新增key-bindings时，可以完全按照emacs的方式设计key-bindings，然后就同时获得了一种leader-key按键的方式。
+
+这又是meow结合vim和emacs两社区优势的另一个例证。
+
+*** Beacon模态
+其也叫做Batch-KMacro，在这种模式下，可以把键盘宏应用到多个地方。
+
+当光标移动到secondary-selection中，Beacon模态会自动启动了；如果光标移出secondary-selection或者secondary-selection去激活，Beacon模态自动退出。
+
+当处在Beacon模态下，可以通过移动命令创建伪光标：
+| meow-left/right            | 在当前列创建伪光标                                    |
+| meow-next/back-word/symbol | 在词的开头或者结尾处创建伪光标                          |
+| meow-mark-word/symbol      | will create regions for every same words           |
+| meow-visit/search          | will create regions for every same regexp          |
+| meow-find/till             | will create cursors for every same characters      |
+| meow-line                  | will create regions for every N lines              |
+| meow-join                  | will create cursors for each indentation beginning |
+
+一旦创建了伪光标，就可以做如下操作：
+1. 简单进入Insert模态（自动启动宏记录），完成编辑退出Insert模态（自动结束宏记录，并应用该宏到所有光标或区域处）
+2. 一般的启动宏记录（按 F3），完成编辑，（按 F4）结束宏记录并应用
+
+* Config
+#+begin_src elisp
+  (require 'meow)
+  (defun meow-setup ()
+    (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
+    (meow-motion-overwrite-define-key
+     '("j" . meow-next)
+     '("k" . meow-prev)
+     '("<escape>" . ignore))
+    (meow-leader-define-key
+     ;; SPC j/k will run the original command in MOTION state.
+     '("j" . "H-j")
+     '("k" . "H-k")
+     ;; Use SPC (0-9) for digit arguments.
+     '("1" . meow-digit-argument)
+     '("2" . meow-digit-argument)
+     '("3" . meow-digit-argument)
+     '("4" . meow-digit-argument)
+     '("5" . meow-digit-argument)
+     '("6" . meow-digit-argument)
+     '("7" . meow-digit-argument)
+     '("8" . meow-digit-argument)
+     '("9" . meow-digit-argument)
+     '("0" . meow-digit-argument)
+     '("/" . meow-keypad-describe-key)
+     '("?" . meow-cheatsheet)
+     ;; windows
+     '("o" . delete-other-windows)
+     '("=" . split-window-right)
+     '("-" . split-window-below)
+     ;; high frequency
+     '("e" . "C-x C-e")
+     '("<SPC>" . "C-x C-s")
+     '(";" . comment-dwim)
+     '("k" . kill-this-buffer)
+     '("p" . project-find-file)
+     '("b" . switch-to-buffer)
+     '("f" . find-file)
+     '("i" . imenu)
+     '("F" . toggle-frame-maximized)
+     '("r" . recentf-open)
+     )
+    (meow-normal-define-key
+     '("0" . meow-expand-0)
+     '("9" . meow-expand-9)
+     '("8" . meow-expand-8)
+     '("7" . meow-expand-7)
+     '("6" . meow-expand-6)
+     '("5" . meow-expand-5)
+     '("4" . meow-expand-4)
+     '("3" . meow-expand-3)
+     '("2" . meow-expand-2)
+     '("1" . meow-expand-1)
+     '("-" . negative-argument)
+     '(";" . meow-reverse)
+     '("," . meow-inner-of-thing)
+     '("." . meow-bounds-of-thing)
+     '("[" . meow-beginning-of-thing)
+     '("]" . meow-end-of-thing)
+     '("a" . meow-append)
+     '("A" . meow-open-below)
+     '("b" . meow-back-word)
+     '("B" . meow-back-symbol)
+     '("c" . meow-change)
+     '("d" . meow-delete)
+     '("D" . meow-backward-delete)
+     '("e" . meow-next-word)
+     '("E" . meow-next-symbol)
+     '("f" . meow-find)
+     '("g" . meow-cancel-selection)
+     '("G" . meow-grab)
+     '("h" . meow-left)
+     '("H" . meow-left-expand)
+     '("i" . meow-insert)
+     '("I" . meow-open-above)
+     '("j" . meow-next)
+     '("J" . meow-next-expand)
+     '("k" . meow-prev)
+     '("K" . meow-prev-expand)
+     '("l" . meow-right)
+     '("L" . meow-right-expand)
+     '("m" . meow-join)
+     '("n" . meow-search)
+     '("N" . meow-pop-search)
+     '("o" . meow-block)
+     '("O" . meow-to-block)
+     '("p" . meow-yank)
+     '("P" . meow-yank-pop)
+     '("q" . meow-quit)
+     '("Q" . meow-goto-line)
+     '("r" . meow-replace)
+     '("R" . meow-swap-grab)
+     '("s" . meow-kill)
+     '("t" . meow-till)
+     '("T" . meow-till-expand)
+     '("u" . meow-undo)
+     '("U" . meow-undo-in-selection)
+     '("v" . meow-visit)
+     '("V" . meow-kmacro-matches)
+     '("w" . meow-mark-word)
+     '("W" . meow-mark-symbol)
+     '("x" . meow-line)
+     '("X" . meow-kmacro-lines)
+     '("y" . meow-save)
+     '("Y" . meow-sync-grab)
+     '("z" . meow-pop-selection)
+     '("Z" . meow-pop-all-selection)
+     '("&" . meow-query-replace)
+     '("%" . meow-query-replace-regexp)
+     '("'" . repeat)
+     '("\\" . quoted-insert)
+     '("<escape>" . ignore)))
+
+  (when window-system
+    (setq meow-replace-state-name-list
+          '((normal . "🅝")
+            (beacon . "🅑")
+            (insert . "🅘")
+            (motion . "🅜")
+            (keypad . "🅚")))
+    )
+  (setq
+   meow-esc-delay 0.001
+   meow-select-on-change t
+   meow-cursor-type-normal 'box
+   meow-cursor-type-insert '(bar . 4)
+   meow-keypad-describe-delay 0.5
+   meow-keypad-leader-dispatch "C-c"
+   meow-expand-hint-remove-delay 2.0)
+  (meow-setup)
+  (meow-setup-indicator)
+  (meow-setup-line-number)
+  (unless (bound-and-true-p meow-global-mode)
+    (meow-global-mode 1))
+  (meow-esc-mode 1)
+#+end_src
