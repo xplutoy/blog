@@ -1,0 +1,90 @@
+#+title:      在emacs中用dumper提升启动速度
+#+date:       [2023-09-06 Wed 23:12]
+#+filetags:   :post:
+#+identifier: 20230906T231235
+
+今天尝试了一下emacs的protable dumper功能，它把加载的package导出到一个外部文件中，然后启动emacs时直接
+加载这个文件，这样比一个一个package的加载速度快很多。lazyload是延迟到首次调用时才加载package，这会导
+致两个问题：
+- 首次调用的延迟很恼人 :: 在首次进入prog-mode或者org-mode时，停顿很明显。
+- 刚启动emacs时响应延迟 :: 一些通过timer或者延迟 ~after-init-hook~ 实现的lazyload会导致一些包在启动emacs后扎堆加载。
+protable dumper却可以规避这两个问题，因为在加载dump-file后，所有包已经准备就绪。
+
+不过当前protable dumper也并不完美：
+1. 比正常启动emacs要多出一个导出dump-file的过程。
+2. 一些包导出时会出错等等。
+所以，我当前的方案是把protable dumper作为补充方案，解决lazyload的上述两个问题。
+
+* Config
+主要参考了网上的这篇文章：[[https://archive.casouri.cc/note/2020/painless-transition-to-portable-dumper/index.html][Painless Transition to Portable Dumper]] 。这篇文章写得很详尽，把配置思路和
+踩的一些坑都说的很清楚。下面的内容只是它的一个简述和总结。
+
+** 定制需要dump的包
+有两类包是我需要dump的：
++ 首次加载延迟很久的包
++ 启动emacs马上需要用到的包
+emacs提供了 ~dump-emacs-portable~ 函数把当前已经加载的包导出到dump-file。为了只导出特定的包，可以单独提供一个为dump所需的配置文件，然后执行下面命令导出dump-file：
+#+begin_src shell
+  emacs --batch -q -l dump.el
+#+end_src
+  在 ~dump.el~ 中只加载特定的package，然后调用 ~dump-emacs-portable~ 函数。
+#+begin_src emacs-lisp
+  (require 'package)
+  (package-initialize)
+  (setq yx/dumped-load-path load-path
+        yx/dumped t)
+  (dolist (package
+           '(elec-pair
+             savehist
+             winner
+             flyspell
+             flymake
+             eglot
+             use-package
+             ;; evil
+             evil
+             evil-owl
+             evil-mc
+             evil-escape
+             evil-surround
+             evil-matchit
+             evil-visualstar
+             vimish-fold
+             evil-vimish-fold
+             ef-themes))
+    (require package))
+  ;; pre-load themes
+  (load-theme 'ef-duo-light t t)
+  ;; dump image
+  (dump-emacs-portable (expand-file-name "emacs.pdmp" user-emacs-directory))
+#+end_src
+
+** 加载dump-file启动emacs
+ emacs提供了 ~--dump-file~ 命令行参数，用来在启动emacs加载制定dump-file：
+#+begin_src
+   emacs --dump-file="/User/yx/.emaorg-super-agenda cs.d/emacs.pdmp"
+#+end_src
+为了不影响emacs的正常启动方式，即执行 ~emacs~ 命令仍按之前的方式启动，需要在 ~init.el~ 文件中添加dump-file启动的条件分支。在上面的 ~dump.el~ 中添加了 ~yx/dumped~ 变量，并且设置为 ~t~ ，这样在导出的dump-file中也会有这个变量，然后在启动过程中就能通过判断这个变量来判断启动方式。下面是 ~init.el~ 中的判断逻辑：
+#+begin_src elisp
+  (if yx/dumped
+      (dumped-run)
+    (normal-run)
+    )
+#+end_src
+
+** protable-dumper的一些问题
+- 一些包导出报错（global-undo-tree, org-super-agenda ）
+- 一些默认模式没有启动（transient-mark-mode, global-font-lock-mode）
+- ~--dump-file~ 后的路径名中不能使用 ~~~
+- ~scratch buffer~ 有点异常
+这些问题在[[https://archive.casouri.cc/note/2020/painless-transition-to-portable-dumper/index.html][Painless Transition to Portable Dumper]] 都有解决。
+
+* 结语
+由于之前的配置几乎都是懒加载的，启动速度已经在 0.7 ~ 0.8 左右了，加上dumper后速度稍微变慢了一点，在
+0.85左右。不过整个使用过程比以前丝滑了不少。
+
+最后再说说自己使用中一个不好的感受吧：
+- 每次添加package后都要dump一次，很麻烦，而且性能提升感受并不明显。
+想了一些改进的办法
+1. 隔一段时间dump一次，不要每次添加软件都dump
+2. 坚持只dump启动延时很高的package
