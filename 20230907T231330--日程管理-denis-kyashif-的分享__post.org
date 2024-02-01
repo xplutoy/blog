@@ -1,0 +1,47 @@
+#+title:      日程管理: Denis Kyashif 的分享
+#+date:       [2023-09-07 Thu 23:13]
+#+filetags:   :post:
+#+identifier: 20230907T231330 
+
+Denis Kyashif 分享了他的日程管理理念[fn:1]，其中有两条最重要的性质：
+- 1. Easy Writing :: Maintaining my tasks should not cause me extra effort.
+- 2. Easy Reading :: I should quickly get the needed information and never miss anything.
+
+我的观点是，现实环境总是比较复杂，计划也总是在计划之外。清晰简洁的计划并不现实，日程安排不可避免的会反应出这种计划外的变化和混乱。
+
+因此对自己而言， *Easy Writing* 和 *Easy Reading* 不如改为 *Quick Writing* 和 *Quick Reading*. 很多计划并不需要深思熟虑，只需要简单的记下来，然后去做，如果中途有什么变更，也可以随时停下来，重新安排协调。
+
+当然，如何在计划与变化之间找到恰当的平衡是一门艺术，或者就是那些时间管理大师真正的看家本领。这门技艺需要在实践中反复练习，只要在做计划时朝着「Get Thing Done」的目标去做，事情就会变得很简单。
+
+- 3. Not everything must be a Task :: 有些事并不需要列入日程安排，而是直接去做
+
+我很认同这一点，我想如果一个人明白了这句话的真实含义，或许根本就不需要日程管理。
+
+作者分享了其GTD的组织结构：
+
+#+begin_src org
+  └──  Root
+     └──  [Project]      :Tag:
+       └──  [Task]
+        ...
+     ...
+#+end_src
+
+这结构跟我的很类似，任务按Topic分类，每个Topic可以看做一个没有截止日期的Project. 每个Topic下面是具体的任务，一般而言，Topic下面极少会超过二级结构。我的做法类似，TODO只用在Topic下的子任务，子任务下面是具体的CheckList，这样能保证OrgAgenda界面的简洁。我用project标签（子树不继承）来标识项目，结合CATEGORY属性来标识任务具体所属Topic和任务检索。
+
+关于OrgMode的deadline/schedule关键字的使用，作者给的建议是
+1. 只对时间敏感的任务设置截止日期
+2. 只对完成时间需要超过一天的任务设置schedule-time
+
+非常忠实的建议。作者还列了其常用的Org-agenda操作：
+- Checking my Tasks for the day/week using the =d/w= keys.
+- Checking the tasks for a project by using =\= and input =+{TagName}=
+- Updating a Task’s state by pressing =t=.
+- Editing a Task by placing the caret on it and pressing =[Tab]=.
+- Switching to next/previous week by pressing =f/b= respectively.
+
+很感谢 Denis Kyashif 的分享，没有过多的技巧，复杂的流程，全是实用且真诚的建议。
+
+* Footnotes
+
+[fn:1] https://deniskyashif.com/2023/08/28/task-management-using-emacs-and-org-mode/
