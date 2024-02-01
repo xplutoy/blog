@@ -1,0 +1,126 @@
+#+title:      Emacs笔记插件Denote使用指南
+#+date:       [2023-09-07 Thu 00:41]
+#+filetags:   :post:
+#+identifier: 20230907T004120
+
+* Intro
+用了一段时间Org-roam插件，但自己真的很少用到双链笔记的特性，也很少用到org-roam-ui。可能跟我记录的笔记类型有关，自己更喜欢记录主题笔记。这类笔记内容组织较为集中，直接放到一个Org文件中最方便，而不是像zs那样分解成单个原子。所以今天还是决定使用Denote这个笔记插件。
+
+Denote并不预设一种记笔记的方式（Org-roam预设了双链笔记的形式），其只是简单的设定了一种及其简单的笔记文件命名约定，这种命名约定也只是为了方便笔记可以用已有的工具检索。所以Denote设计很简约，同时又很灵活，每个人都可以根据自己的需求来定制自己习惯的笔记流程。
+
+Denote默认生成的文件名样式为如下：
+#+begin_example
+DATE--TITLE__KEYWORDS.EXTENSION
+#+end_example
+注意，其中DATE项是一个文件或者笔记的唯一标识，不允许更改，不然会使denote-link破损。
+
+在其官网[fn:1]上，作者列出了其设计denote的原则，非常切合我最近的思考：
+- Predictability :: File names must follow a consistent and descriptive naming convention.
+- Composability :: Be a good Emacs citizen, by integrating with other packages or built-in functionality instead of re-inventing functions such as for filtering or greping.
+- Portability :: Notes are plain text and should remain portable.
+- Flexibility :: Do not assume the user’s preference for a note-taking methodology.
+- Hackability :: Denote’s code base consists of small and reusable functions. They all have documentation strings. The idea is to make it easier for users of varying levels of expertise to understand what is going on and make surgical interventions where necessary.
+
+* Configuration
+#+begin_src emacs-lisp
+  (use-package denote
+    :after org
+    :demand t
+    :custom
+    (denote-directory yx/org-dir)
+    (denote-infer-keywords t)
+    (denote-known-keywords nil)
+    (denote-allow-multi-word-keywords t)
+    (denote-prompts '(title keywords subdirectory))
+    :hook
+    (dired-mode . denote-dired-mode-in-directories)
+    )
+#+end_src
+配置很简单，注意其中 =denote-prompts= 的设置，我在默认值后面添加了subdirectory. 这样每次新建笔记时，denote都会提示用户选择子目录。我这样设置，是因为我把自己的笔记分为几大块，有日记，文献笔记，卡片笔记，博客文章等。这样我就能在创建笔记时，把笔记放入对应的目录下，完成第一级分类。
+
+我设置了可以用多个keyword，在提示输入时，多个keyword用逗号分隔一次输入。
+
+* Usage
+
+在这里，我不用org-capture特性来新建笔记，前者更适合用于GTD项的捕获。下面是我为denote设置的快捷键，直接访问denote的功能：
+#+begin_src emacs-lisp
+  (bind-keys
+   ("C-c n c"   . denote)
+   ("C-c n t"   . yx/denote-template)
+   ("C-c n C-c" . citar-create-note)
+   ("C-c n C-o" . citar-denote-dwim)
+   ("C-c n n"   . denote-open-or-create)
+   ("C-c n i"   . denote-link-or-create)
+   ("C-c n l"   . denote-backlinks)
+   ("C-c n f"   . denote-find-link)
+   ("C-c n b"   . denote-find-backlink))
+#+end_src
+
+=denote-template= 可以用模版来创建笔记，应该会非常有用，其默认实现不会提示选择子目录，我依照 denote-template 改了一下：
+#+begin_src emacs-lisp
+  (defun yx/denote-template ()
+      "Create note while prompting for a template.
+  This is equivalent to calling `denote' when `denote-prompts' is
+  set to \\='(template title keywords subdirectory)."
+      (declare (interactive-only t))
+      (interactive)
+      (let ((denote-prompts '(template title keywords subdirectory)))
+        (call-interactively #'denote)))
+#+end_src
+模版通过参数 denote-templates 来设置，目前的配置中没有模版，等有需要的时候再添加。
+
+denote-open-or-create 命令可以用来创建或打开denote文件，minibuffer会有提示补全。我用它查询打开已有的笔记，几乎够用了，所以也就没有安装另一个看着还不错的插件 consult-note[fn:2]。
+
+其他命令看名字就几乎知道其功能了，不再多言。
+
+* Misc
+这下面的内容是其官网[fn:1]文档的一些总结，以及自己使用时的一些心得。
+** Add or remove keywords
+通过 =denote-keywords-add= 和 =denote-keywords-remove= 这两个命令可以在笔记的front-matter添加或删除keyword，并同时修改文件。
+
+** Renaming files
+denote提供了一些保持文件命名约定和笔记front-matter一致的命令
+| denote-rename-file                                  | rename a file and updates existing front matter |
+| denote-dired-rename-marked-files                    | rename marked files in Dired                    |
+| denote-rename-file-using-front-matter               | rename a file using front matter                |
+| denote-dired-rename-marked-files-using-front-matter |                                                 |
+| denote-change-file-type                             |                                                 |
+
+文件的identifier永远不会改变，即使修改了文件的front-matter。其被设计成链接的唯一标识和真实性的唯一来源，防止由于打错字或类似的误操作可能引起的破损。
+
+如果不小心删除了front-matter，可以用 =denote-add-front-matter= 命令来重新生成font-matter.
+
+** Linking notes
+| denote-add-links               |                                                            |
+| denote-link                                |                                                            |
+| denote-link-dired-marked-notes |                                                            |
+| denote-link-after-creating     | Create new note in the background and link to it directly. |
+| denote-link-or-create                               |                                                            |
+
+** 实现zs笔记命令
+| denote-backlinks | open the backlinks’ buffer |
+| denote-find-link |                            |
+| denote-find-backlink |                            |
+
+** denote可以结合Org动态块来索引已有笔记
+加载相关模块
+#+begin_src emacs-lisp
+  ;; Register Denote's Org dynamic blocks
+  (require 'denote-org-dblock)
+#+end_src
+
+动态块可以执行特定函数来获得和更新它的内容，denote提供了 =denote-links= 和 =denote-backlinks= 两种动态块，来获得双链的链接信息。
+
+下面是一个denote-links的动态块：
+#+begin_src emacs-lisp
+  ,#+BEGIN: denote-links :regexp "_emacs"
+
+  ,#+END:
+#+end_src
+在其中按 =C-c C-c=, 就可以收集keyword为“emacs”的链接了。每个动态块函数还可以允许带参数，具体看官方文档[fn:1].
+
+* Footnotes
+
+[fn:1] https://protesilaos.com/emacs/denote
+
+[fn:2] https://github.com/mclear-tools/consult-notes
