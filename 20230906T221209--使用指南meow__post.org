@@ -1,9 +1,10 @@
-#+title:      Meow使用指南
-#+date:       [2023-09-06 Wed 22:12]
-#+filetags:   :post:
+#+title: 使用指南Meow
+#+date: [2023-09-06 Wed 22:12]
+#+filetags: :post:
 #+identifier: 20230906T221209
 
 * Intro
+
 meow是一个模态编辑模式，与evil类似，其命令与具体的模式有关，其大致思想就是把文本编辑大致分为插入和编辑模态，不同的模特完成不同的任务，这可以减少每个操作的按键次数，达到高效快速编辑的作用。
 
 以移动命令举例，在emacs中，向前移动一个字符的快捷键为 ~C-f~ ，但在vim中，或者meow中，只要切换到Nornal模态中，按一个键 ~f~ 就可以了。
@@ -21,17 +22,19 @@ meow没有vim的包袱，更加纯粹，而且在设计之初就考虑了如何�
 如不是考虑到放弃vim的成本，可能自己早就迁移过来了，看这次学习的情况如何吧，如果顺利，后面就完全迁移到这个上面来。
 
 ** Normal模态
+
 1. 移动
 Normal模态下的基于字符的移动，与vim一致，使用 ~h,j,k,l~ 。
 | h | move left  |
 | j | move down  |
 | k | move up    |
 | l | move right |
-2. 删除
+1. 删除
 | d | 向前删除一个字符 |
 | D | 向后删除一个字符 |
 
 ** Insert模态
+
 按 ~i~ 进入「Insert模态」，按 ~ESC~ 键退出「Insert」进入「Normal」。一些其他进入「Insert」的快捷方式
 | i   | Insert cursor before the selection     |
 | a   | Insert cursor after the selection      |
@@ -46,6 +49,7 @@ Normal模态下的基于字符的移动，与vim一致，使用 ~h,j,k,l~ 。
 在这里可以看到meow的编辑模式，选择+动作。这一点跟vim刚好是反过来的。
 
 ** 选择命令
+
 除了上面的 ~x~ 和 ~m~ 外，还有其他一些选择命令，跟vim一样，也是按照语义来定义的：
 | e | 向前选择，直到当前word末尾                                             |
 | E | 向前选择，直到当前符号末尾                                              |
@@ -59,17 +63,20 @@ Normal模态下的基于字符的移动，与vim一致，使用 ~h,j,k,l~ 。
 符号只用空格隔开，单词可以用其他字符隔开。
 
 ** 扩展选择
+
 当按了上面选择命令后，可以接着进行选择扩展，比如按了 ~w~
 选择当前单词，在按 ~e~ 向前继续扩展选择到下一个单词末尾。大致模式是，选择命令后面继续接选择命令为扩展选择区域。
 
 可以按 ~;~ 调转光标在选择区域中的方向， ~z~ 是undo之前的选择， ~g~ 是清楚当前所有选择。
 
 ** 依对象扩展选择区域
+
 除了上面的选择扩展，还有更加通用的基于对象的扩展选择操作：
 | [ | expand before cursor until beginning of... |
 | ] | expand after cursor until end of...        |
 | , | select the inner part of...                |
 | . | select the whole part of...                |
+
 这些操作后面接不同的对象，完成不同编辑区域的选择：
 | r | round parenthesis  |
 | s | square parenthesis |
@@ -79,6 +86,7 @@ Normal模态下的基于字符的移动，与vim一致，使用 ~h,j,k,l~ 。
 | l | line               |
 | d | defun              |
 | b | buffer             |
+
 meow为这些操作提供了方面的操作界面，在Normal模态按下操作，比如 ~]~ ，meow会马上弹出对象选择菜单，而不用完全把这些对象记住，其在可用性方面做得比vim更好。
 
 meow的在做选择操作的同时也移动光标，比如要移动到整个buffer的开头，可以按 ~[b~ ，这对应于vim的 ~gg~ 命令，以及emacs的 ~M-<~ 命令。但这种统一选择移动的设计，让这种方式更容易理解和记忆，这是vim和emacs之前所缺失的。
@@ -88,6 +96,7 @@ meow的在做选择操作的同时也移动光标，比如要移动到整个buff
 注意，有些对象必须在对应的major-mode中才有用，比如defun对象，一般而言要在prog-mode中才能正确识别。
 
 ** find/till
+
 | t | select until the next specific characte |
 | f | same to t, but jump over that character |
 
@@ -98,6 +107,7 @@ meow的在做选择操作的同时也移动光标，比如要移动到整个buff
 与vim和emacs比较而言，meow的方式更加简洁高效。
 
 ** 修改命令
+
 | c   | delete the current selection and switch to Insert mode |
 | d i | 与 c d等同                                              |
 | s   | kill，剪切复制当前选择区域                                 |
@@ -107,6 +117,7 @@ meow的在做选择操作的同时也移动光标，比如要移动到整个buff
 | U   | 只undo当前选中区域的内容                                   |
 
 ** BEACON (BATCHED KEYBOARD MACROS)
+
 meow这种先选择后操作的模式，可以让其执行multi-editing像内置操作一样容易。
 1. 首先选择一块区域，可以通过任何选择操作
 2. 按 ~G~ 进入BEACON模态
@@ -117,6 +128,7 @@ meow这种先选择后操作的模式，可以让其执行multi-editing像内置
 这是meow与vim之间最大的不同，其强大简洁的multi-editing能力，是其最吸引我的地方。
 
 *** Beacon可以结合emacs的keyboard-macros系统完成复杂的编辑任务
+
 下面是一个例子：
 #+begin_example
   1 2 3
@@ -151,6 +163,7 @@ meow这种先选择后操作的模式，可以让其执行multi-editing像内置
 7. 按 ~G~ 退出Beacon模态，完成编辑
 
 ** 快速访问和搜索
+
 按 ~v~ 启动快速访问，它会在minibuffer中提示用户输入要快速访问的符号，然后在当前buffer中定位到这个符号，可以通过命令 ~n~ 跳转到下一个匹配的符号。可以通过 ~;~ 来改变查找方向。 ~n~ 操作会遵循当前方向进行查找。
 
 另外，只要你有选择某块区域，就可以直接用 ~n~ 操作进行快速搜索，比如用 ~w~ 选中当前单词，然后按 ~n~ 进行搜索。
@@ -162,7 +175,9 @@ meow这种先选择后操作的模式，可以让其执行multi-editing像内置
 4. 按 ~n r~ ，查找下一个并替换
 
 * Conceptions
+
 ** 模态
+
 emacs里面分major-mode和mirror-mode，vim中有插入模态和Normal模态，这两者有交叉，但也有很大不同。
 
 在emacs中，major-mode是跟文件类型相关联的，每一种特定的文件类型对应一种major-mode，其中定义了大部分与这类文件相关的操作和定义。其他一些通用的特性通过很多不同的mirror-mode提供，比如hl-line-mode可以高亮当前行，display-line-numbers-mode可以在当前buffer显示行号。这种设计赋予了其极强的扩展能力。
@@ -178,6 +193,7 @@ evil的目标是在emacs上完全模拟vim，怎么把evil整合到emacs的工�
 emacs中，除了编辑模式，还有很多special-mode，比如dired，ibuffer等功能所使用的major-mode都继承于speical-mode。因为这些模式中的操作不同于文本插入和文本编辑，所以在vim和meow中都引入motion模态来处理这种情况。
 
 *** Motion模态
+
 在meow中，MOTION模态默认使用 ~SPC~ 作为leader-key，原本的 ~SPC~ 可以通过 ~SPC SPC~ 访问，除此之外就再没有绑定其他快捷键了。在EOTION模态下，如果定义的快捷键覆盖了emacs已有的快捷键，那么emacs原本的快捷键被重新绑定到 ~H-<key>~ 上。比如为了在MOTION模态中也使用 ~j,k~ 进行上下移动，可以通过如下配置达成：
 #+begin_src emacs-lisp
   (meow-motion-overwrite-define-key '("j" . next-line))
@@ -186,6 +202,7 @@ emacs中，除了编辑模式，还有很多special-mode，比如dired，ibuffer
 访问emacs原本j绑定的功能，可以通过 ~H-j~ ，或者 ~SPC j~ .
 
 *** keypad模态
+
 这个模态类似于vim的leader-key，但又很不同，它实现了不用按modifier-key来复用emacs的modifier-keybings。在Normal模态中按 ~SPC~ 进入kaypad模态，然后用户的按键会按下面的规则进行转换：
 1. 首字母除了「x，c，h，m，g」，会被转换成 ~C-c <key>~
 2. m 会转换成 ~M-~ ，后接另一个字母，则为 ~M-<key>~ ，比如 ~SPC m h~ 会转换成 ~M-h~
@@ -200,6 +217,7 @@ emacs中，除了编辑模式，还有很多special-mode，比如dired，ibuffer
 这又是meow结合vim和emacs两社区优势的另一个例证。
 
 *** Beacon模态
+
 其也叫做Batch-KMacro，在这种模式下，可以把键盘宏应用到多个地方。
 
 当光标移动到secondary-selection中，Beacon模态会自动启动了；如果光标移出secondary-selection或者secondary-selection去激活，Beacon模态自动退出。
@@ -218,6 +236,7 @@ emacs中，除了编辑模式，还有很多special-mode，比如dired，ibuffer
 2. 一般的启动宏记录（按 F3），完成编辑，（按 F4）结束宏记录并应用
 
 * Config
+
 #+begin_src elisp
   (require 'meow)
   (defun meow-setup ()
