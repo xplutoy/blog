@@ -1,85 +1,27 @@
-@import url("https://fonts.googleapis.com/css2?family=Lora:wght@500&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Inconsolata&display=swap");
-
-
 body {
-    width: 700px;
-    margin: 40px auto;
+    width: 800px;
+    margin: auto;
     line-height: 1.4em;
     background: #fffff4;
-    color: #3a1616;
-    padding: 0 10px;
+    padding: lem;
     font-size: 16px;
-    font-family: "Lora";
+    font-family: Optima, Candara, Calibri, Ariial, sans-serif;
 }
 
-h1,
-h2,
-h3 {
-    line-height: 1.4em;
-    font-family: "Lora";
-}
-
-img {
-    width: 600px;
-    border-radius: 10px;
-    text-align: middle;
-}
+img, iframe, video { max-width: 80%}
 
 table {
-    margin: 1em auto;
-    border-top: 1px solid;
-    border-bottom: 1px solid;
-    border-collapse: collapse;
-}
-table td,th {
-    padding: 0.3em 0.6em;
-    vertical-align: middle;
-}
-table tr {
-    border-top: 0.5px solid gray;
-}
-
-a {
-    cursor: pointer;
-    color: #217ab7;
-    line-height: inherit;
-    transition: .14s;
-    text-decoration: none;
-}
-a:hover {
-    color: white;
-    border-bottom: 1px dotted;
-    background-color: #3297d3;
-}
-a:visited {
-    color: #43458b;
-    border-color: #43458b;
-}
-a:visited:hover {
-    color: white;
-    background-color: #9251ac;
-}
-
-footnotes {
-    font-size: smaller;
-}
-
-bibliography {
-    font-size: smaller;
-}
-
-::selection {
-    color: white;
-    background: #ff4081;
+    margin: auto;
+    border-top: 1px solid #666;
+    border-bottom: 1px solid #666;
 }
 
 /* code highlight */
 pre {
     overflow-x: auto;
-    border: 1px solid #ccc;
-    font-size: 15px;
-    font-family: "Inconsolata", monospace;  
+    border: 1px solid #ddd;
+    font-size: 85%;
+    font-family: "Lucida Console", Monaco, monospace;  
 }
 
 pre.src {
@@ -124,8 +66,3 @@ pre span.org-diff-header                 {color:#800000;}
 pre span.org-diff-hunk-header            {color:#990099;}
 pre span.org-diff-none                   {color:#545454;}
 pre span.org-diff-removed                {color:#A60000;}
-
-.status {
-    font-size: smaller;
-    margin: 2em auto;
-}
