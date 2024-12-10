@@ -41,14 +41,12 @@ TruLens is a software tool that helps you to objectively measure the quality and
 
 ** EndeavourOS
 
-EndeavourOS 是一个基于 Arch Linux 的轻量的 Linux 发型版，。它的以下几点特性有比较吸引我：
+EndeavourOS 是一个基于 Arch Linux 的轻量的 Linux 发型版。它的以下几点特性有比较吸引我：
 
 1. 基于 Arch ，与 Arch 使用相同的软件仓库，滚动升级。
-   
 2. 用户友好的安装和可供选择的桌面以及，提供了 Calamares 安装程序。
-
 3. 只安装必要的软件包以获得完整的桌面体验，几乎可以获得原生的 Arch 体验。
-   
+
 等候选自己安定下来后，可以用这个 Linux 发行版来搭建工作环境。
 
 
@@ -95,10 +93,7 @@ Polars is a DataFrame interface on top of an OLAP Query Engine implemented in Ru
 其主打的是性能，可以作为 Pandas 的替代品。
 
 
-** TODO Open Food Facts AI Project
-:LOGBOOK:
-- State "TODO"       from              [2024-12-02 Mon 05:56]
-:END:
+** Open Food Facts AI Project
 
 这篇文章 ([[elfeed:towardsdatascience.com#https://medium.com/p/d74dfe02e0e4][How Did Open Food Facts Fix OCR-Extracted Ingredients Using Open-Source LLMs?]]) 介绍了 Open Food Facts 公益组织利用 LLM 解决识别食品成分时遇到的问题。文章写得非常精彩，其中关于问题的具体分析、智能算法的评估指标的定义以及各种开源工具的合理应用等部分非常值得参考。
 
