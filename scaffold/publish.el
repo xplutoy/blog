@@ -63,7 +63,7 @@
          :sitemap-format-entry yx/org-sitemap-date-entry-format
 
          :html-link-home "/blog"
-         :html-link-up "/blog"
+         :html-link-up "../"
          :html-head-include-scripts nil
          :html-head-include-default-style nil
          :html-head ,yx/html-head
