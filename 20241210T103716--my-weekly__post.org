@@ -1,0 +1,51 @@
+#+title:      My Weekly
+#+date:       [2024-12-10 Tue 10:37]
+#+filetags:   :post:
+#+identifier: 20241210T103716
+
+
+** TTY Demystified
+
+关于 TTY 的资料很少，再加上历史因素，让其显得古老和神秘。这篇文章，[[https://www.linusakesson.net/programming/tty/][The TTY demystified]]，揭开了 TTY 神秘的面纱，非常值得阅读。
+
+
+** Free-threaded CPython (3.13)
+
+CPython 3.13 版本迎来重大实验性更新，现在 python 代码可以越过 GIL ，跑在 free-threaded mode 中，实现真正的多线程。
+
+GIL 是 python 解释器的全局锁，阻止多个 python 线程同时执行 python 字节码。起初这样设计主要是为了简化内存管理以及和 C API 的交互。但是这也让其无法充分有效的利用现代多核处理器。
+
+
+** FeedSpot
+
+FeedSpot 是一个内容发现和聚合平台，用户可以订阅其服务获得个性化的内容（博客，播客等）推荐。
+
+对于还在使用 RSS 获取信息的朋友是一个巨大的福音，上面有很多优质 RSS Feeds 推荐。下面是我搜索的一些：
+
+- [[https://rss.feedspot.com/ai_rss_feeds/][Top 100 Artificial Intelligence RSS Feeds]]
+- [[https://rss.feedspot.com/machine_learning_rss_feeds/][Top 90 Machine Learning RSS Feeds]]
+- [[https://rss.feedspot.com/linux_rss_feeds/][Top 90 Linux RSS Feeds]]
+
+
+** Py-Googletrans
+
+免费无限制的非官方 Google translate API 。
+
+作者在其 README 里直言该库采用了一些逆向方法，所以可能后面会被 Google 封锁。
+
+
+** CI/CD for Python with Github Actions
+
+CI/CD 已经成为现代软件质量保障的基础设施， Real Python 上的这篇[[https://realpython.com/github-actions-python/][文章]]详细的讲解了其使用方法。
+
+
+** DuckDB
+
+DuckDB 是一个面向数据分析场景的嵌入式数据库，可以看作是 AP 版本的 SQLite 。
+
+
+** Parquet File Format
+
+Apache Parquet 是专门为大数据处理设计优化的列存储文件格式，被许多大数据处理框架使用。
+
+R 语言的 nanoparquet 包可用于读写 parquet 文件格式。
