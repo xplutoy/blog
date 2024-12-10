@@ -95,34 +95,6 @@ Polars is a DataFrame interface on top of an OLAP Query Engine implemented in Ru
 其主打的是性能，可以作为 Pandas 的替代品。
 
 
-** [[https://norvig.com/spell-correct.html][How to Write a Spelling Corrector]]
-
-这篇文章演示了如何实现一个简单的拼写纠正器以及其背后涉及的统计理论。
-
-首先 spelling corrector 的问题可以定义为如下优化问题：
-
-$$\operatorname{argmax}_{c\in candidates}\mathbb{P}(c|w),$$
-
-其中 $c$ 表示正确的词， $w$ 表示进行拼写检查的词， candidates 表示 w 对应拼写正确的候选词集。直观来说，拼写纠错就是根据当前词的候选正确词集中找到在当前上下文中概率最大的拼写正确候选词。
-
-上述公式根据贝叶斯理论可改写为：
-
-$$\mathrm{argmax}_{c\in candidates}\mathbb{P}(c)\mathbb{P}(w|c)/\mathbb{P}(w).$$
-
-又因为 $p(w)$ 对每个候选词 c 都一样，可以把它消除，最后得到：
-
-$$\mathrm{argmax}_{c\in candidates}\mathbb{P}(c)\mathbb{P}(w|c).$$
-
-根据上述最终表达式可以把拼写纠错器抽象为下面四个部分：
-
-1. 选择机制 (Selection Mechanism)： $argmax$
-2. 候选词集模型 (Candidate Model)： $c \in candidates$
-3. 语言模型 (Language Model)： $P(c)$ 
-4. 错误模型 (Error Model)： $P(w|c$)
-
-有了上述对 spelling corrector 问题的定义和分解，最后的实现就变得直观和简单了，这里不再累述。
-
-
 ** TODO Open Food Facts AI Project
 :LOGBOOK:
 - State "TODO"       from              [2024-12-02 Mon 05:56]
