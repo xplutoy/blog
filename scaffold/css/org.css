@@ -1,4 +1,4 @@
-$smaller: 80%;
+$smaller: 85%;
 
 body {
     width: 800px;
@@ -10,16 +10,12 @@ body {
     font-family: Helvetica, Arial, sans-serif;
 }
 
-.title {
-    margin: 0.8em auto;
-}
-
 p.verse {
     margin-left: 3%;
 }
 
 img, iframe, video {
-    max-width: $smaller
+    max-width: 80%;
 }
 
 table {
@@ -46,6 +42,11 @@ blockquote {
     margin: 1em auto;
     padding: 0.1em 0.5em;
     position: relative;
+}
+
+#postamble p, #preamble p {
+    font-size: $smaller;
+    margin: .2em;
 }
 
 #bibliography {
