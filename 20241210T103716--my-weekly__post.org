@@ -4,24 +4,24 @@
 #+identifier: 20241210T103716
 
 
-*** Walrus operator
+** Walrus operator
 
 Python 3.8 引入的一种新的赋值表达式，允许在表达式中间对变量进行赋值，帮助开发人员写出更加简单易读可维护的代码。关于其更多的细节可以看这篇文章 ([[https://realpython.com/python-walrus-operator/][The Walrus Operator: Python's Assignment Expressions]])，其中详细的讲解了引入 walrus operator 的初衷和目的，以及应该在何时使用的一些最佳实践。
 
 
-*** Rounding Strategies
+** Rounding Strategies
 
 这篇文章 ([[elfeed:www.planetpython.org#https://realpython.com/python-rounding/][Real Python: How to Round Numbers in Python]]) 介绍了 Python 生态中的各种 ~round~ 算法以及其最佳实践。第一次了解到 round 的原来还有这么多门道，我想这应该是每一位数据科学家都应该了解的，尤其是 ~rounding bias~ 的概念。
 
 
-*** Learning Vector Quantization
+** Learning Vector Quantization
 
 LVQ is a prototype-based supervised classification algorithm.
 
 算法细节参考这篇文章 ([[https://medium.com/@udbhavkush4/demystifying-learning-vector-quantization-a-step-by-step-guide-with-code-implementation-from-ea3c4ab5330e][Learning Vector Quantization (LVQ): A Step-by-Step Guide with Code Implementation from Scratch]]) 。 
 
 
-*** Expression vs Statement
+** Expression vs Statement
 
 这篇文章 ([[elfeed:www.planetpython.org#https://realpython.com/python-expression-vs-statement/][Real Python: Expression vs Statement in Python: What's the Difference?]]) 总结了 Python 语言中的表达式与语句的区别：
 
@@ -32,14 +32,14 @@ In Short: Expressions Have Values and Statements Cause Side Effects.
 从技术的角度来说，在 Python 语言中的每一行每一块代码都是语句 (statement)。表达式 (expressions) 可以看作一种特殊的有值的语句 (statements with values)，本质上，你可以用该计算出来的值替换原表达式而不会改变程序的整体行为。
 
 
-*** TruLens
+** TruLens
 
 TruLens is a software tool that helps you to objectively measure the quality and effectiveness of your LLM-based applications using feedback functions.
 
 该工具是我在阅读这篇文章 ([[elfeed:towardsdatascience.com#https://medium.com/p/3c518af836ce][From Retrieval to Intelligence: Exploring RAG, Agent+RAG, and Evaluation with TruLens]]) 时知道的。LLMs App 开发不可或缺的工具。这篇文章也非常有趣，主要介绍如何用 LlamaIndex 框架实现 RAG 。 
 
 
-*** EndeavourOS
+** EndeavourOS
 
 EndeavourOS 是一个基于 Arch Linux 的轻量的 Linux 发型版，。它的以下几点特性有比较吸引我：
 
@@ -52,7 +52,7 @@ EndeavourOS 是一个基于 Arch Linux 的轻量的 Linux 发型版，。它的�
 等候选自己安定下来后，可以用这个 Linux 发行版来搭建工作环境。
 
 
-*** CrewAI
+** CrewAI
 
 一个 AI Agent 框架，下面是其官网简介：
 
@@ -61,7 +61,7 @@ CrewAI: Cutting-edge framework for orchestrating role-playing, autonomous AI age
 #+end_quote
 
 
-*** Gephi
+** Gephi
 
 一个开源的图可视化分析软件，可用在 Exploratory Data Analysis, Link Analysis, Social Network Analysis, Biological Network analysis 等方面。下面是其官网简介：
 
@@ -70,7 +70,7 @@ Gephi is the leading visualization and exploration software for all kinds of gra
 #+end_quote
 
 
-*** NetworkX
+** NetworkX
 
 一个关于复杂网络的 Python 库，下面是官网简介：
 
@@ -79,12 +79,12 @@ NetworkX is a Python package for the creation, manipulation, and study of the st
 #+end_quote
 
 
-*** [[elfeed:towardsdatascience.com#https://medium.com/p/89a9b3a5ad9e][Smaller is smarter]]
+** [[elfeed:towardsdatascience.com#https://medium.com/p/89a9b3a5ad9e][Smaller is Smarter]]
 
 这篇文章指出 LLMs 训练推断上巨大的成本。以 Llama 3.1 405B 为例，就耗电这一项来说，就需要 11GWh ，大概等于法国 4782 个人的平均用电量。其实并不是所有任务都需要大语言模型，小型的语言模型在简单的任务上表现也相当不错。比如作者推荐的 Mistral 7B, Llama-3.2 3B 和 Phi3.5 等。
 
 
-*** Polars: Blazingly fast DataFrames
+** Polars: Blazingly fast DataFrames
 
 官网的简介：
 
@@ -95,7 +95,7 @@ Polars is a DataFrame interface on top of an OLAP Query Engine implemented in Ru
 其主打的是性能，可以作为 Pandas 的替代品。
 
 
-*** [[https://norvig.com/spell-correct.html][How to Write a Spelling Corrector]]
+** [[https://norvig.com/spell-correct.html][How to Write a Spelling Corrector]]
 
 这篇文章演示了如何实现一个简单的拼写纠正器以及其背后涉及的统计理论。
 
@@ -123,7 +123,7 @@ $$\mathrm{argmax}_{c\in candidates}\mathbb{P}(c)\mathbb{P}(w|c).$$
 有了上述对 spelling corrector 问题的定义和分解，最后的实现就变得直观和简单了，这里不再累述。
 
 
-*** TODO Open Food Facts AI Project
+** TODO Open Food Facts AI Project
 :LOGBOOK:
 - State "TODO"       from              [2024-12-02 Mon 05:56]
 :END:
