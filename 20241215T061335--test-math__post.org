@@ -1,0 +1,14 @@
+#+title:      test_math
+#+date:       [2024-12-15 Sun 06:13]
+#+filetags:   :post:
+#+identifier: 20241215T061335
+
+* 测试 math forma
+
+$$\pi = 3.14$$
+
+在数学中，$\pi$ 是一个很重要的常数。
+
+下面是一个复杂的公式：
+
+$$\underset{D}{\operatorname*{\operatorname*{\iint}}}\left(\frac{\partial Q}{\partial x}-\frac{\partial P}{\partial y}\right)\mathrm{d}x\mathrm{d}y=\oint_{L^+}\left(P\mathrm{d}x+Q\mathrm{d}y\right)$$
