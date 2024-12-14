@@ -2,7 +2,6 @@ body {
     width: 800px;
     margin: auto;
     line-height: 1.5em;
-    background: #fffff4;
     padding: lem;
     font-size: 16px;
     font-family: Helvetica, Arial, sans-serif;
@@ -33,29 +32,11 @@ blockquote {
 }
 
 .org-src-container {
+    background: #f9f9f9;
     border: 1px solid #ddd;
-    box-shadow: 3px 3px 3px #eee;
+    box-shadow: 5px 5px 5px #eee;
     font-family: Lucida Console, monospace;
-    font-size: smaller;
     margin: 1em auto;
     padding: 0.1em 0.5em;
     position: relative;
-}
-
-#postamble p, #preamble p {
-    font-size: smaller;
-    margin: .2em;
-}
-
-#bibliography {
-    font-size: smaller;
-}
-
-#footnotes {
-    font-size: smaller;
-}
-
-.status {
-    font-size: smaller;
-    margin: 2em auto;
 }
