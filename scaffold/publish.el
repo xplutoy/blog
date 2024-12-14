@@ -44,7 +44,7 @@
               filename))))
 
 (defvar yx/html-head "<link rel='stylesheet' href='./css/org.css' type='text/css'/>
-                      <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>")
+                      <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js'></script>")
 (defvar yx/html-postamble "<div id='postamble' class='status'> <hr/> <p class='author'>Created with %c by %a <br\>Updated: %C<br/></p> </div>")
 (setq org-publish-project-alist
       `(("yx-notes"
