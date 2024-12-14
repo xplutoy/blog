@@ -40,3 +40,8 @@ blockquote {
     padding: 0.1em 0.5em;
     position: relative;
 }
+
+#postamble p, #preamble p {
+    font-size: small;
+    margin: .2em;
+}
