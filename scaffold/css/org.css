@@ -31,6 +31,11 @@ blockquote {
     border-left: 3px solid #ddd;
 }
 
+.title {
+    text-align: center;
+    margin: 0.8em auto;
+}
+
 .org-src-container {
     font-size: small;
     background: #f9f9f9;
@@ -83,4 +88,8 @@ pre span.org-diff-removed                {color:#A60000;}
 #postamble p, #preamble p {
     font-size: small;
     margin: .2em;
+}
+
+#bibliography {
+    font-size: small;
 }

@@ -20,7 +20,7 @@
 (setq org-export-with-section-numbers t
       org-export-htmlize-output-type 'css
       org-export-with-smart-quotes t
-      org-export-with-footnotes t
+      org-export-with-footnotes nil
       org-export-with-sub-superscripts nil)
 (setq org-export-global-macros
       '(("timestamp" . "@@html:<span class=\"timestamp\">$1 </span>@@")))
