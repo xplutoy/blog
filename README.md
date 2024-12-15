@@ -1,2 +1,3 @@
 # yx-notes
-notes
+
+已废弃！
